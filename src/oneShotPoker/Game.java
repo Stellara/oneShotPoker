@@ -36,6 +36,11 @@ public class Game{
 
             System.out.println("This is the current deck: ");
             System.out.println(viewDeck);
+            System.out.println("It has " + currentDeck.length + " objects within.");
+            System.out.println("These are the values of all the cards in the deck: ");
+            for(int i=0; i < currentDeck.length; i++){
+                System.out.println(currentDeck[i].getValue());
+            }
         }
 
 
