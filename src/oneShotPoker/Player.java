@@ -22,12 +22,7 @@ public class Player {
 }
 
 
-//    private Card[] handOfCards = new Card[5];
-//    for (int i = 0; i < 5; i++) {
-//        SomeClass someObject = new SomeClass();
-//        // set properties
-//        array[i] = someObject;
-//        }
+
 //
 //public handOfCards getHandOfCards(){
 //        return handOfCards;
