@@ -4,9 +4,10 @@ import oneShotPoker.Card;
 
 public class Deck {
     //TODO: refactor
-    private Card[] deck = new Card[52];
+    private static Card[] deck = new Card[52];
+    public static Card[] filledAndShuffledDeck;
 
-    private Card[] createBlankDeck() {
+    private static Card[] createBlankDeck() {
         for (int i = 0; i < 52; i++) {
             Card blankCard = new Card();
             deck[i] = blankCard;
@@ -14,14 +15,20 @@ public class Deck {
         return deck;
     }
 
-    public Card[] getDeckOfCards() {
-        return createBlankDeck();
+    public static Card[] getDeckOfCards() {
+        filledAndShuffledDeck = createBlankDeck();
+        return filledAndShuffledDeck;
     }
 
 
 
 
-    public void assignSuit(char suit) {
+    private void assignSuit(char suit) {
+        //iterate over a chunk of array, 13 places
+            // does it have a suit?
+            // yes, move on to next 13
+            // no, assign it an unused suit
+                // what is an unused suit?
 
     }
 

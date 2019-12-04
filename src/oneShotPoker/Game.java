@@ -3,14 +3,16 @@ package oneShotPoker;
 import oneShotPoker.Card;
 import oneShotPoker.Deck;
 import oneShotPoker.Player;
+import java.util.Arrays;
 
 public class Game{
-        // get players
         private int numOfPlayers;
         private Player[] currentPlayers = new Player[numOfPlayers];
+        private Card[] currentDeck = new Card[52];
 
 
-        public void setNumOfPlayers(int requestedNumOfPlayers){
+
+    public void setNumOfPlayers(int requestedNumOfPlayers){
             this.numOfPlayers = requestedNumOfPlayers;
         }
 
@@ -26,7 +28,14 @@ public class Game{
             System.out.println("Running a brand new game...");
             System.out.println("The number of players for this game is: ");
             System.out.println(this.numOfPlayers);
-            currentPlayers = this.getPlayers(2);
+
+            currentPlayers = getPlayers(2);
+            currentDeck = Deck.getDeckOfCards();
+
+            String viewDeck = Arrays.toString(currentDeck);
+
+            System.out.println("This is the current deck: ");
+            System.out.println(viewDeck);
         }
 
 

@@ -1,8 +1,8 @@
 package oneShotPoker;
 
 public class Card {
-    private int value;
-    private char suit;
+    private int value = 99;
+    private char suit = 'X';
 
     public int getValue() {
         return value;
