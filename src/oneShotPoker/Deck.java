@@ -1,7 +1,7 @@
 package oneShotPoker;//import oneShotPoker.Card
 
 public class Deck {
-    array deck;
+//    array deck;
 
     //DS to hold all the values
     // assignSuits(suit);
