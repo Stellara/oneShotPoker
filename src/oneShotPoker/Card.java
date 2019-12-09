@@ -1,25 +1,43 @@
 package oneShotPoker;
 
 public class Card {
-    private char value;
-    private char suit = 'X';
-
-    public char getValue() {
-        return this.value;
+    //TODO: Which access?
+    public enum Suits {
+        SPADES,
+        HEARTS,
+        DIAMONDS,
+        CLUBS;
     }
 
-    public void setValue(char newValue) {
-        System.out.println("Inside of Card class...setting value onto a card...");
-        System.out.println("Setting this value: " + newValue);
-
-        this.value = newValue;
+    public enum Ranks {
+        TWO,
+        THREE,
+        FOUR,
+        FIVE,
+        SIX,
+        SEVEN,
+        EIGHT,
+        NINE,
+        TEN,
+        JACK,
+        QUEEN,
+        KING,
+        ACE;
     }
 
-    public char getSuit() {
-        return suit;
+    private Suits suit;
+    private Ranks rank;
+
+    public void setNewCard(Suits suit, Ranks rank) {
+        this.suit = suit;
+        this.rank = rank;
     }
 
-    public void setSuit(char newSuit) {
-        this.suit = newSuit;
+    public Ranks getRank() {
+        return this.rank;
+    }
+
+    public Suits getSuit() {
+        return this.suit;
     }
 }
