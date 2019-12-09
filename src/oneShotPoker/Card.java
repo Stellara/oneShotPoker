@@ -1,18 +1,21 @@
 package oneShotPoker;
 
 public class Card {
-    private int value = 99;
+    private char value;
     private char suit = 'X';
 
-    public int getValue() {
-        return value;
+    public char getValue() {
+        return this.value;
     }
 
-    public void setValue(int newValue) {
+    public void setValue(char newValue) {
+        System.out.println("Inside of Card class...setting value onto a card...");
+        System.out.println("Setting this value: " + newValue);
+
         this.value = newValue;
     }
 
-    public int getSuit() {
+    public char getSuit() {
         return suit;
     }
 
