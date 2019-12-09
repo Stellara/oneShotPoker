@@ -1,7 +1,5 @@
 package oneShotPoker;
 
-import oneShotPoker.Game;
-
 public class GameRunner {
     public static void main(String[] args) {
         System.out.println("One Shot Poker is running...");

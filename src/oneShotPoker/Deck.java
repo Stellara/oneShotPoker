@@ -1,89 +1,45 @@
 package oneShotPoker;
 
-import oneShotPoker.Card;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck {
-    //TODO: refactor
-    private static Card[] deck = new Card[52];
-    private static char[] cardValues = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
-    public static Card[] filledAndShuffledDeck;
+    //TODO: clean up
+    private ArrayList<Card> cards = new ArrayList<>();
 
-
-    private static Card[] createBlankDeck() {
-        for (int i = 0; i < deck.length; i++) {
-            Card blankCard = new Card();
-            deck[i] = blankCard;
-       }
-        return deck;
+    private ArrayList<Card> giveDealerDeck() {
+        return this.cards;
     }
 
-    private static void assignValues(){
-        for(int i = 0; i < deck.length; i += 13) {
-            for(int j = 0; j < cardValues.length; j++) {
-                System.out.println("Printing the value of the current index:" + j + " into cardValues...");
-                System.out.println(cardValues[j]);
-                
-                System.out.println("Printing what the value of the i iterator is...");
-                System.out.println(i);
-
-                deck[i].setValue(cardValues[j]);
+    private void buildNewDeck() {
+        for (Card.Suits suit : Card.Suits.values()) {
+            for (Card.Ranks rank : Card.Ranks.values()) {
+                Card currentlyBuiltCard = new Card(suit, rank);
+                cards.add(currentlyBuiltCard);
             }
         }
     }
 
-    private void assignSuit(char suit) {
-        //iterate over a chunk of array, 13 places
-        // does it have a suit?
-        // yes, move on to next 13
-        // no, assign it an unused suit
-        // what is an unused suit?
-
+    private void shuffleDeck() {
+        Collections.shuffle(this.cards);
     }
 
-    public static void assignSuitsAndValues() {
-
+    //Helper method.
+    //TODO: remove
+    public void validateDeck() {
+        System.out.println("Validating cards in deck...");
+        System.out.println("Deck size: " + cards.size());
+        for(int i=0; i < cards.size(); i++){
+            System.out.println("Rank: " + cards.get(i).getRank());
+            System.out.println("Suit: " + cards.get(i).getSuit());
+        }
+        //add in set functionality so we know each card is unique
     }
 
-    public static void shuffleDeck() {
-
-    }
-
-    public static void fillAndShuffleDeck() {
-        assignSuitsAndValues();
+    public void setupNewDeck() {
+        buildNewDeck();
         shuffleDeck();
+        giveDealerDeck();
     }
-
-    public static Card[] getDeckOfCards() {
-        filledAndShuffledDeck = createBlankDeck();
-        assignValues();
-        return filledAndShuffledDeck;
-
-        // end goal:
-        // fillAndShuffledDeck = filledAndShuffledDeck();
-        // return filledAndShuffledDeck;
-    }
-
-
-
-
-
-
-
-    //DS to hold all the values
-    // assignSuits(suit);
-    // card setters, 13 times
-    //assign suit(S);
-    //assign suit(D);
-    //assign suit(C);
-
-    //assignValues
-
-    // fillHearts();
-    // assign suit to 13 cards (13 times)
-
-    //return the array deck
-
-    //shuffling the oneShotPoker.Deck is not the oneShotPoker.Deck's responsbility, it is the GameRunners
 }
 

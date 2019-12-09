@@ -6,16 +6,17 @@ import oneShotPoker.Player;
 import java.util.Arrays;
 
 public class Game{
+        //TODO: this will probably get bloated with methods real fast, pull out into fitting classes
         private int numOfPlayers;
         private Player[] currentPlayers = new Player[numOfPlayers];
-        private Card[] currentDeck = new Card[52];
+        //TODO: give better name than gameDeck
+        private Deck gameDeck = new Deck();
 
-
-
-    public void setNumOfPlayers(int requestedNumOfPlayers){
+        public void setNumOfPlayers(int requestedNumOfPlayers){
             this.numOfPlayers = requestedNumOfPlayers;
         }
 
+        //TODO: fix this
         private Player[] getPlayers(int numOfPlayers) {
             for (int i = 0; i < numOfPlayers; i++) {
                 Player nextSeatingPlayer = new Player();
@@ -25,47 +26,27 @@ public class Game{
         }
 
         public void runGame(){
+            //TODO: Pull all text strings out into other methods and constants? eg: greetPlayers, etc
             System.out.println("Running a brand new game...");
             System.out.println("The number of players for this game is: ");
             System.out.println(this.numOfPlayers);
 
             currentPlayers = getPlayers(2);
-            currentDeck = Deck.getDeckOfCards();
-
-            String viewDeck = Arrays.toString(currentDeck);
-
-            System.out.println("This is the current deck: ");
-            System.out.println(viewDeck);
-            System.out.println("It has " + currentDeck.length + " objects within.");
-            System.out.println("These are the values of all the cards in the deck: ");
-            for(int i=0; i < currentDeck.length; i++){
-                System.out.println(currentDeck[i].getValue());
-            }
+            gameDeck.setupNewDeck();
+            gameDeck.validateDeck();
         }
 
-
-
-
-
-    // get a deck
-//        Card[] gameDeck = Deck.getDeckOfCards();
-//
-//        System.out.println("We will be using this deck: ");
-//        System.out.println(gameDeck);
-
-        // shuffle deck
-        // deal out hands
-            /* public static hand dealHand{
-            * Card card;
-
-            *  card[] hand;
-            *  hand = new card[5];
-            */
-        // compare hands
-        // rank hands
+        // TODO: implement MAIN GAME LOOP
+        // set num of players
+        // get deck
+        // deal hands to players
+        // rank hands with an internal value or something similar?
+        // compare players hands
         // choose winner
         // set winner
         // Player.isWinner(true);
         // output outcome
-        // record stats }
+        // record stats *extra*
+        // end game
+        // play again or exit?
 }

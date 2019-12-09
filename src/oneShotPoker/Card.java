@@ -1,7 +1,6 @@
 package oneShotPoker;
 
-public class Card {
-    //TODO: Which access?
+public class Card{
     public enum Suits {
         SPADES,
         HEARTS,
@@ -28,7 +27,7 @@ public class Card {
     private Suits suit;
     private Ranks rank;
 
-    public void setNewCard(Suits suit, Ranks rank) {
+    public Card(Suits suit, Ranks rank) {
         this.suit = suit;
         this.rank = rank;
     }
