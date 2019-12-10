@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class HandOfCards {
     private ArrayList<Card> cards = new ArrayList<>();
+    //TODO: Should this be on the player or on the hand?
     private int currentValue = 0;
     private String currentRankName = "";
 

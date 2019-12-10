@@ -1,12 +1,5 @@
 package oneShotPoker;
 
-import oneShotPoker.Card;
-import oneShotPoker.Deck;
-import oneShotPoker.Player;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class Game{
         //TODO: this will probably get bloated with methods real fast, pull out into fitting classes
         private int numOfPlayers;
@@ -14,6 +7,7 @@ public class Game{
 
         //TODO: give better name than gameDeck
         private Deck gameDeck = new Deck();
+        private HandRanker ranker = new HandRanker();
 
         public void setNumOfPlayers(int requestedNumOfPlayers){
             this.numOfPlayers = requestedNumOfPlayers;
@@ -51,6 +45,13 @@ public class Game{
             }
         }
 
+        private void rankHands() {
+            for (Player currentlyRankingPlayer: currentPlayers) {
+                System.out.println("Ranking hand for " + currentlyRankingPlayer);
+                ranker.assignHandWorth(currentlyRankingPlayer);
+            }
+        }
+
         public void runGame(){
             //TODO: Pull all text strings out into other methods and constants? eg: greetPlayers, etc
             System.out.println("Running a brand new game...");
@@ -58,12 +59,17 @@ public class Game{
             System.out.println(this.numOfPlayers);
 
             //Main Game loop
+            //TODO: refactor this call to take input from the GameRunner
             currentPlayers = getPlayers(2);
+
+            //TODO: smell? Wrap these in private methods?
             gameDeck.setupNewDeck();
             gameDeck.validateDeck();
+
             dealHands();
 
             //TODO: helper debugging statements, remove
+            //TODO: better name than currentlyDealingPlayer
             for (Player currentlyDealingPlayer : currentPlayers) {
                 System.out.println("The current player is " + currentlyDealingPlayer);
                 System.out.println("Validating current player's hand...");
@@ -73,6 +79,8 @@ public class Game{
                     System.out.println(currentCardInHand.getSuit() + " ");
                 }
             }
+
+            rankHands();
         }
 
         // TODO: implement MAIN GAME LOOP
@@ -82,6 +90,7 @@ public class Game{
         // _ rank hands with an internal value or something similar?
         // _ compare players hands
         // _ choose winner
+            // sort the players by handvalue, highest value is the winner, if same values, tie?
         // _ set winner
             // Player.isWinner(true);
         // _ output outcome
