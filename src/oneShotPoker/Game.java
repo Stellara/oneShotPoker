@@ -39,7 +39,7 @@ public class Game{
                 //TODO: cleaner way to implement this, like ruby pop?
                 drawnCard = gameDeck.giveDealerDeck().get(i);
                 gameDeck.giveDealerDeck().remove(i);
-                hand.add(drawnCard);
+                hand.setNewCard(drawnCard);
             }
             return hand;
         }
