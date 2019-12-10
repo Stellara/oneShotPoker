@@ -2,10 +2,10 @@ package oneShotPoker;
 
 public class Card{
     public enum Suits {
-        SPADES,
-        HEARTS,
+        CLUBS,
         DIAMONDS,
-        CLUBS;
+        HEARTS,
+        SPADES;
     }
 
     public enum Ranks {
