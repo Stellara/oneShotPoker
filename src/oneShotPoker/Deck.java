@@ -7,7 +7,7 @@ public class Deck {
     //TODO: clean up
     private ArrayList<Card> cards = new ArrayList<>();
 
-    private ArrayList<Card> giveDealerDeck() {
+    public ArrayList<Card> giveDealerDeck() {
         return this.cards;
     }
 
@@ -39,7 +39,6 @@ public class Deck {
     public void setupNewDeck() {
         buildNewDeck();
         shuffleDeck();
-        giveDealerDeck();
     }
 }
 
