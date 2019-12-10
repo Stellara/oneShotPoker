@@ -30,9 +30,9 @@ public class Game{
         }
 
         //TODO: refactor
-        private ArrayList<Card> drawHand(int handSize) {
+        private HandOfCards drawHand(int handSize) {
             System.out.println("Drawing hand...");
-            ArrayList<Card> hand = new ArrayList<>();
+            HandOfCards hand = new HandOfCards();
             Card drawnCard;
 
             for(int i=0; i < handSize; i++) {
@@ -57,10 +57,13 @@ public class Game{
             System.out.println("The number of players for this game is: ");
             System.out.println(this.numOfPlayers);
 
+            //Main Game loop
             currentPlayers = getPlayers(2);
             gameDeck.setupNewDeck();
             gameDeck.validateDeck();
             dealHands();
+
+            //TODO: helper debugging statements, remove
             for (Player currentlyDealingPlayer : currentPlayers) {
                 System.out.println("The current player is " + currentlyDealingPlayer);
                 System.out.println("Validating current player's hand...");
@@ -73,16 +76,16 @@ public class Game{
         }
 
         // TODO: implement MAIN GAME LOOP
-        // set num of players
-        // get deck
-        // deal hands to players
-        // rank hands with an internal value or something similar?
-        // compare players hands
-        // choose winner
-        // set winner
-        // Player.isWinner(true);
-        // output outcome
-        // record stats *extra*
-        // end game
-        // play again or exit?
+        // X set num of players
+        // X get deck
+        // X deal hands to players
+        // _ rank hands with an internal value or something similar?
+        // _ compare players hands
+        // _ choose winner
+        // _ set winner
+            // Player.isWinner(true);
+        // _ output outcome
+        // _ record stats *extra*
+        // _ end game
+        // _ play again or exit?
 }
