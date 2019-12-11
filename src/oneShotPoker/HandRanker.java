@@ -1,6 +1,7 @@
 package oneShotPoker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Collections.frequency;
@@ -42,38 +43,61 @@ public class HandRanker {
             "High Card", 1
     );
 
-    private void countSameSuits(ArrayList<Card> handOfCards) {
-        System.out.println("Inside countSameSuits...");
 
-        Map<String, Integer> suitCounts = Map.of(
-                "Clubs", 0,
-                "Diamonds", 0,
-                "Hearts", 0,
-                "Spades", 0
-        );
+    private static Map<String, Integer> createSuitCounter() {
+        Map<String, Integer> suitCounter = new HashMap<String,Integer>();
+        suitCounter.put("Clubs", 0);
+        suitCounter.put("Diamonds", 0);
+        suitCounter.put("Hearts", 0);
+        suitCounter.put("Spades", 0);
+        return suitCounter;
+    }
 
-      suitCounts.forEach((k, v)->{
+    private void countSuits(ArrayList<Card> handOfCards) {
+        System.out.println("Inside countSuits...");
+        Map<String, Integer> suitCounter = createSuitCounter();
+
+
        for(int i=0; i<handOfCards.size(); i++){
-          System.out.println("Checking this suit for each player in countSameSuits " + handOfCards.get(i).getSuit() );
-              if(handOfCards.get(i).getSuit().equals(k)){
-                  suitCounts.put(k, suitCounts.get(k) + 1);
-              }
-           }
-        });
+           Card.Suits currentCardSuit = handOfCards.get(i).getSuit();
 
-        System.out.println("Here's the counts of suits bitches: " + suitCounts);
+           System.out.println("Checking this suit for each player in countSuits " + currentCardSuit);
+
+           switch(currentCardSuit) {
+
+               case CLUBS:
+                   System.out.println("We got us a club");
+                   suitCounter.put("Clubs", suitCounter.get("Clubs") + 1);
+                   break;
+               case DIAMONDS:
+                   System.out.println("We got us a diamond");
+                   suitCounter.put("Diamonds", suitCounter.get("Diamonds") + 1);
+                   break;
+               case HEARTS:
+                   System.out.println("We got us a heart");
+                   suitCounter.put("Hearts", suitCounter.get("Hearts") + 1);
+                   break;
+               case SPADES:
+                   System.out.println("We got us a spade");
+                   suitCounter.put("Spades", suitCounter.get("Spades") + 1);
+                   break;
+
+           }
+       }
+
+        System.out.println("This hand has the following amounts of suits: " + suitCounter);
+    }
+
+    public void checkStraightFlush(ArrayList<Card> handBeingChecked) {
+        System.out.println("Checking for Straight Flush...");
+        countSuits(handBeingChecked);
+        //Implement rest of logic for what constitutes a Straight Flush and score it
     }
 
     public void assignHandWorth(Player playerBeingRanked) {
         ArrayList<Card> handBeingProcessed = playerBeingRanked.getCurrentHandOfCards();
         System.out.println(handBeingProcessed);
-
         checkStraightFlush(handBeingProcessed);
-    }
-
-    public void checkStraightFlush(ArrayList<Card> handBeingChecked) {
-        System.out.println("Checking for Straight Flush...");
-        countSameSuits(handBeingChecked);
     }
 
 }
