@@ -10,6 +10,22 @@ import static oneShotPoker.Card.Suits.DIAMONDS;
 import static oneShotPoker.Card.Suits.HEARTS;
 import static oneShotPoker.Card.Suits.SPADES;
 
+//TODO: I hate this! How else can I get these?
+import static oneShotPoker.Card.Ranks.TWO;
+import static oneShotPoker.Card.Ranks.THREE;
+import static oneShotPoker.Card.Ranks.FOUR;
+import static oneShotPoker.Card.Ranks.FIVE;
+import static oneShotPoker.Card.Ranks.SIX;
+import static oneShotPoker.Card.Ranks.SEVEN;
+import static oneShotPoker.Card.Ranks.EIGHT;
+import static oneShotPoker.Card.Ranks.NINE;
+import static oneShotPoker.Card.Ranks.TEN;
+import static oneShotPoker.Card.Ranks.JACK;
+import static oneShotPoker.Card.Ranks.QUEEN;
+import static oneShotPoker.Card.Ranks.KING;
+import static oneShotPoker.Card.Ranks.ACE;
+
+
 
 public class HandRanker {
     //Should I big switch that checks each of these?
@@ -56,15 +72,13 @@ public class HandRanker {
         return suitsCounter;
     }
 
-    //TODO: implement value counter method
-//    private static Map<String, Integer> createRanksCounter() {
-//        Map<String, Integer> ranksCounter = new HashMap<String,Integer>();
-//        //loop over enum on Card
-//        ranksCounter.put(currentRank, 0);
-//
-//
-//        return ranksCounter;
-//    }
+    private static Map<Card.Ranks, Integer> createRanksCounter() {
+        Map<Card.Ranks, Integer> ranksCounter = new HashMap<>();
+        for(Card.Ranks rank : Card.Ranks.values()) {
+            ranksCounter.put(rank, 0);
+        }
+        return ranksCounter;
+    }
 
     //TODO: refactor
     private Map countSuits(ArrayList<Card> handOfCards) {
@@ -99,6 +113,77 @@ public class HandRanker {
        }
        return suitsCounter;
     }
+
+    //TODO: refactor
+    private Map countRanks(ArrayList<Card> handOfCards) {
+        System.out.println("Inside countRanks...");
+        Map<Card.Ranks, Integer> ranksCounter = createRanksCounter();
+
+        for(int i=0; i<handOfCards.size(); i++){
+            Card.Ranks currentCardRank = handOfCards.get(i).getRank();
+
+            System.out.println("Checking this suit for each player in countRanks " + currentCardRank);
+
+            switch(currentCardRank) {
+
+                case TWO:
+                    System.out.println("We got us a two!");
+                    ranksCounter.put(TWO, ranksCounter.get(TWO) + 1);
+                    break;
+                case THREE:
+                    System.out.println("We got us a three!");
+                    ranksCounter.put(THREE, ranksCounter.get(THREE) + 1);
+                    break;
+                case FOUR:
+                    System.out.println("We got us a four!");
+                    ranksCounter.put(FOUR, ranksCounter.get(FOUR) + 1);
+                    break;
+                case FIVE:
+                    System.out.println("We got us a five!");
+                    ranksCounter.put(FIVE, ranksCounter.get(FIVE) + 1);
+                    break;
+                case SIX:
+                    System.out.println("We got us a six!");
+                    ranksCounter.put(SIX, ranksCounter.get(SIX) + 1);
+                    break;
+                case SEVEN:
+                    System.out.println("We got us a seven!");
+                    ranksCounter.put(SEVEN, ranksCounter.get(SEVEN) + 1);
+                    break;
+                case EIGHT:
+                    System.out.println("We got us a eight!");
+                    ranksCounter.put(EIGHT, ranksCounter.get(EIGHT) + 1);
+                    break;
+                case NINE:
+                    System.out.println("We got us a nine!");
+                    ranksCounter.put(NINE, ranksCounter.get(NINE) + 1);
+                    break;
+                case TEN:
+                    System.out.println("We got us a ten!");
+                    ranksCounter.put(TEN, ranksCounter.get(TEN) + 1);
+                    break;
+                case JACK:
+                    System.out.println("We got us a jack!");
+                    ranksCounter.put(JACK, ranksCounter.get(JACK) + 1);
+                    break;
+                case QUEEN:
+                    System.out.println("We got us a queen!");
+                    ranksCounter.put(QUEEN, ranksCounter.get(QUEEN) + 1);
+                    break;
+                case KING:
+                    System.out.println("We got us a king!");
+                    ranksCounter.put(KING, ranksCounter.get(KING) + 1);
+                    break;
+                case ACE:
+                    System.out.println("We got us a ace");
+                    ranksCounter.put(ACE, ranksCounter.get(ACE) + 1);
+                    break;
+            }
+        }
+        return ranksCounter;
+    }
+
+
 
     //**These atomic functions will be composed together in the check hand type functions, with a combination of suits counting and values comparisons
     //
@@ -138,18 +223,26 @@ public class HandRanker {
     //assignWorthAndHandRanks should be composition of the check hand type methods, put the big switch in there?
     public void checkStraightFlush(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Straight Flush...");
-        Map suitsCounter = countSuits(handBeingChecked);
-        System.out.println("This hand has the following amounts of suits: " + suitsCounter);
+        //TODO: needs a better name, confusing with suitsCounter and countSuits method
+        Map suitsOfCurrentHand = countSuits(handBeingChecked);
+        System.out.println("This hand has the following amounts of suits: " + suitsOfCurrentHand);
 
         //Implement rest of logic for what constitutes a Straight Flush and score it
         // If it is a straight flush, then what? Set the hand's worth and name? What stops the rest of assignHandWorth from firing?
         // Should assignHandWorth have an if-else tree or a switch?
     }
 
+    public void checkFourOfAKind(ArrayList<Card> handBeingChecked) {
+        System.out.println("Checking for Four of a Kind...");
+        Map ranksOfCurrentHand = countRanks(handBeingChecked);
+        System.out.println("This hand has the following amounts of ranks: " + ranksOfCurrentHand);
+    }
+
     public void assignHandWorth(Player playerBeingRanked) {
         ArrayList<Card> handBeingProcessed = playerBeingRanked.getCurrentHandOfCards();
         System.out.println(handBeingProcessed);
         checkStraightFlush(handBeingProcessed);
+        checkFourOfAKind(handBeingProcessed);
     }
 
 }
