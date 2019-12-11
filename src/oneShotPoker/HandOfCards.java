@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class HandOfCards {
     private ArrayList<Card> cards = new ArrayList<>();
     //TODO: Should this be on the player or on the hand?
-    private int currentValue = 0;
+    private int currentHandValue = 0;
     private String currentRankName = "";
 
     public ArrayList<Card> getCards() {
@@ -16,12 +16,12 @@ public class HandOfCards {
         this.cards.add(newCardToAdd);
     }
 
-    public int getCurrentValue() {
-        return this.currentValue;
+    public int getCurrentHandValue() {
+        return this.currentHandValue;
     }
 
     public void setCurrentHandValue(int newHandValue) {
-        this.currentValue = newHandValue;
+        this.currentHandValue = newHandValue;
     }
 
     public String getCurrentHandRankName() {
