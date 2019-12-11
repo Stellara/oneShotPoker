@@ -15,9 +15,8 @@ public class Player {
         return this.isWinner;
     }
 
-    //TODO: reconsider, has a smell
-    public ArrayList<Card> getCurrentHandOfCards(){
-        return this.currentHandOfCards.getCards();
+    public HandOfCards getCurrentHandInformation(){
+        return this.currentHandOfCards;
     }
 
     public void setCurrentHandOfCards(HandOfCards newHand){

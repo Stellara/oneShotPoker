@@ -73,8 +73,8 @@ public class Game{
             for (Player currentlyDealingPlayer : currentPlayers) {
                 System.out.println("The current player is " + currentlyDealingPlayer);
                 System.out.println("Validating current player's hand...");
-                System.out.println(currentlyDealingPlayer.getCurrentHandOfCards());
-                for(Card currentCardInHand: currentlyDealingPlayer.getCurrentHandOfCards()){
+                System.out.println(currentlyDealingPlayer.getCurrentHandInformation());
+                for(Card currentCardInHand: currentlyDealingPlayer.getCurrentHandInformation().getCards()){
                     System.out.print(currentCardInHand.getRank() + " ");
                     System.out.println(currentCardInHand.getSuit() + " ");
                 }
