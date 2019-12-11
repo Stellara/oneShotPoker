@@ -1,6 +1,7 @@
 package oneShotPoker;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,19 +61,6 @@ public class HandRanker {
 
     High Card: Hands which do not fit any higher category are ranked by the value of their highest card. If the highest cards have the same value, the hands are    ranked   by the next highest, and so on.
      */
-
-    Map<String, Integer> handRankNamesAndWorth = Map.of(
-            STRAIGHT_FLUSH, 9,
-            FOUR_OF_A_KIND, 8,
-            FULL_HOUSE, 7,
-            FLUSH, 6,
-            STRAIGHT, 5,
-            THREE_OF_A_KIND, 4,
-            TWO_PAIRS, 3,
-            PAIR, 2,
-            HIGH_CARD, 1
-    );
-
     private static Map<Card.Suits, Integer> createSuitsCounter() {
         Map<Card.Suits, Integer> suitsCounter = new HashMap<>();
         for (Card.Suits suit : Card.Suits.values()) {
@@ -199,10 +187,9 @@ public class HandRanker {
     //The following are suits checking methods
     public boolean handHasAllSameSuit(ArrayList<Card> handBeingChecked) {
         System.out.println("This is count of suits inside handHasAllSameSuit: " + countSuits(handBeingChecked));
-        Map suitsOfCurrentHand = countSuits(handBeingChecked);
-
+         int suitsFrequencies = Collections.frequency(countSuits(handBeingChecked).values(), 5);
         //this is true if any one of the keys has a value of 5
-        return false;
+        return suitsFrequencies == 5;
     }
 
     //The following are values checking methods
@@ -226,6 +213,12 @@ public class HandRanker {
 
     public boolean handHasTrio() {
         return false;
+    }
+
+    public int getHighCardValue(ArrayList<Card> handBeingChecked) {
+        System.out.println("Getting high card value for " + handBeingChecked + "...");
+        System.out.println(countRanks(handBeingChecked));
+        return 999;
     }
 
 
@@ -254,9 +247,10 @@ public class HandRanker {
         System.out.println(handBeingProcessed);
 
         if(checkStraightFlush(handBeingProcessed)) {
-            currentHandStatus.setCurrentHandValue(handRankNamesAndWorth.get(STRAIGHT_FLUSH));
+//            look up the worth of a straight flush from the enum, assign it to the hand information
         }
         checkFourOfAKind(handBeingProcessed);
+        getHighCardValue(handBeingProcessed);
     }
 
 }

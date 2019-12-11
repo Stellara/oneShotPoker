@@ -1,7 +1,5 @@
 package oneShotPoker;
 
-import java.util.ArrayList;
-
 public class Player {
     private boolean isWinner;
     private HandOfCards currentHandOfCards;
