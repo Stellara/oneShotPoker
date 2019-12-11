@@ -189,6 +189,8 @@ public class HandRanker {
     //
     //The following are suits checking methods
     public boolean handHasAllSameSuit(ArrayList<Card> handBeingChecked) {
+        Map suitsOfCurrentHand = countSuits(handBeingChecked);
+
         //this is true if any one of the keys has a value of 5
         return false;
     }
@@ -221,11 +223,9 @@ public class HandRanker {
     //check hand type methods should all be compositions of the atomic handHasX methods
     // checkX returns what? boolean, just sets the properties on the hand for value and rankname?
     //assignWorthAndHandRanks should be composition of the check hand type methods, put the big switch in there?
-    public void checkStraightFlush(ArrayList<Card> handBeingChecked) {
+    public boolean checkStraightFlush(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Straight Flush...");
-        //TODO: needs a better name, confusing with suitsCounter and countSuits method
-        Map suitsOfCurrentHand = countSuits(handBeingChecked);
-        System.out.println("This hand has the following amounts of suits: " + suitsOfCurrentHand);
+        return handHasAllSameSuit(handBeingChecked);
 
         //Implement rest of logic for what constitutes a Straight Flush and score it
         // If it is a straight flush, then what? Set the hand's worth and name? What stops the rest of assignHandWorth from firing?
@@ -234,14 +234,15 @@ public class HandRanker {
 
     public void checkFourOfAKind(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Four of a Kind...");
-        Map ranksOfCurrentHand = countRanks(handBeingChecked);
-        System.out.println("This hand has the following amounts of ranks: " + ranksOfCurrentHand);
     }
 
     public void assignHandWorth(Player playerBeingRanked) {
         ArrayList<Card> handBeingProcessed = playerBeingRanked.getCurrentHandOfCards();
         System.out.println(handBeingProcessed);
-        checkStraightFlush(handBeingProcessed);
+
+        if(checkStraightFlush(handBeingProcessed){
+         handBeingProcessed.setCurrentHandValue();
+        }
         checkFourOfAKind(handBeingProcessed);
     }
 
