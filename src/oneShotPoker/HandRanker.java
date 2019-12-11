@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.util.Collections.frequency;
+//TODO: Do I need these explicit imports? More DRY way to access?
+import static oneShotPoker.Card.Suits.CLUBS;
+import static oneShotPoker.Card.Suits.DIAMONDS;
+import static oneShotPoker.Card.Suits.HEARTS;
+import static oneShotPoker.Card.Suits.SPADES;
+
 
 public class HandRanker {
     //Should I big switch that checks each of these?
@@ -43,20 +48,28 @@ public class HandRanker {
             "High Card", 1
     );
 
-
-    private static Map<String, Integer> createSuitCounter() {
-        Map<String, Integer> suitCounter = new HashMap<String,Integer>();
-        suitCounter.put("Clubs", 0);
-        suitCounter.put("Diamonds", 0);
-        suitCounter.put("Hearts", 0);
-        suitCounter.put("Spades", 0);
-        return suitCounter;
+    private static Map<Card.Suits, Integer> createSuitsCounter() {
+        Map<Card.Suits, Integer> suitsCounter = new HashMap<>();
+        for (Card.Suits suit : Card.Suits.values()) {
+            suitsCounter.put(suit, 0);
+        }
+        return suitsCounter;
     }
 
-    private void countSuits(ArrayList<Card> handOfCards) {
-        System.out.println("Inside countSuits...");
-        Map<String, Integer> suitCounter = createSuitCounter();
+    //TODO: implement value counter method
+//    private static Map<String, Integer> createRanksCounter() {
+//        Map<String, Integer> ranksCounter = new HashMap<String,Integer>();
+//        //loop over enum on Card
+//        ranksCounter.put(currentRank, 0);
+//
+//
+//        return ranksCounter;
+//    }
 
+    //TODO: refactor
+    private Map countSuits(ArrayList<Card> handOfCards) {
+        System.out.println("Inside countSuits...");
+        Map<Card.Suits, Integer> suitsCounter = createSuitsCounter();
 
        for(int i=0; i<handOfCards.size(); i++){
            Card.Suits currentCardSuit = handOfCards.get(i).getSuit();
@@ -67,31 +80,70 @@ public class HandRanker {
 
                case CLUBS:
                    System.out.println("We got us a club");
-                   suitCounter.put("Clubs", suitCounter.get("Clubs") + 1);
+                   suitsCounter.put(CLUBS, suitsCounter.get(CLUBS) + 1);
                    break;
                case DIAMONDS:
                    System.out.println("We got us a diamond");
-                   suitCounter.put("Diamonds", suitCounter.get("Diamonds") + 1);
+                   suitsCounter.put(DIAMONDS, suitsCounter.get(DIAMONDS) + 1);
                    break;
                case HEARTS:
                    System.out.println("We got us a heart");
-                   suitCounter.put("Hearts", suitCounter.get("Hearts") + 1);
+                   suitsCounter.put(HEARTS, suitsCounter.get(HEARTS) + 1);
                    break;
                case SPADES:
                    System.out.println("We got us a spade");
-                   suitCounter.put("Spades", suitCounter.get("Spades") + 1);
+                   suitsCounter.put(SPADES, suitsCounter.get(SPADES) + 1);
                    break;
 
            }
        }
-
-        System.out.println("This hand has the following amounts of suits: " + suitCounter);
+       return suitsCounter;
     }
 
+    //**These atomic functions will be composed together in the check hand type functions, with a combination of suits counting and values comparisons
+    //
+    //The following are suits checking methods
+    public boolean handHasAllSameSuit(ArrayList<Card> handBeingChecked) {
+        //this is true if any one of the keys has a value of 5
+        return false;
+    }
+
+    //The following are values checking methods
+    //We need to check for counts of 5, 4, 3, 2 of same value
+    //Make a value count function that returns the number of same values
+    public boolean handHasAllConsecutiveValues() {
+        // implement a recursive function here
+        // this is true when card 1 is smaller than card 0, card 2 is smaller than card 1, etc after sorting by value
+        return false;
+    }
+
+    public boolean handHasPair() {
+        // this is true when at least one of the keys in suitsCounter has a value 2
+        return false;
+    }
+
+    public boolean handHasTwoPair() {
+        // this is true when
+        return false;
+    }
+
+    public boolean handHasTrio() {
+        return false;
+    }
+
+
+
+    //check hand type methods should all be compositions of the atomic handHasX methods
+    // checkX returns what? boolean, just sets the properties on the hand for value and rankname?
+    //assignWorthAndHandRanks should be composition of the check hand type methods, put the big switch in there?
     public void checkStraightFlush(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Straight Flush...");
-        countSuits(handBeingChecked);
+        Map suitsCounter = countSuits(handBeingChecked);
+        System.out.println("This hand has the following amounts of suits: " + suitsCounter);
+
         //Implement rest of logic for what constitutes a Straight Flush and score it
+        // If it is a straight flush, then what? Set the hand's worth and name? What stops the rest of assignHandWorth from firing?
+        // Should assignHandWorth have an if-else tree or a switch?
     }
 
     public void assignHandWorth(Player playerBeingRanked) {
