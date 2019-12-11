@@ -28,6 +28,15 @@ import static oneShotPoker.Card.Ranks.ACE;
 
 
 public class HandRanker {
+    private static final String STRAIGHT_FLUSH = "Straight Flush";
+    private static final String FOUR_OF_A_KIND = "Four of a Kind";
+    private static final String FULL_HOUSE = "Full House";
+    private static final String FLUSH = "Flush";
+    private static final String STRAIGHT = "Straight";
+    private static final String THREE_OF_A_KIND = "Three of a Kind";
+    private static final String TWO_PAIRS = "Two Pairs";
+    private static final String PAIR = "Pair" ;
+    private static final String HIGH_CARD = "High Card";
     //Should I big switch that checks each of these?
     // Should I make each of these individual methods, passing in the player's hand?
     //Assigning a rank means that it needs the internal rank value + what kind of semantic hand they have for communications purposes
@@ -53,15 +62,15 @@ public class HandRanker {
      */
 
     Map<String, Integer> handRankNamesAndWorth = Map.of(
-            "Straight Flush", 9,
-            "Four of a Kind", 8,
-            "Full House", 7,
-            "Flush", 6,
-            "Straight", 5,
-            "Three of a Kind", 4,
-            "Two Pairs", 3,
-            "Pair", 2,
-            "High Card", 1
+            STRAIGHT_FLUSH, 9,
+            FOUR_OF_A_KIND, 8,
+            FULL_HOUSE, 7,
+            FLUSH, 6,
+            STRAIGHT, 5,
+            THREE_OF_A_KIND, 4,
+            TWO_PAIRS, 3,
+            PAIR, 2,
+            HIGH_CARD, 1
     );
 
     private static Map<Card.Suits, Integer> createSuitsCounter() {
@@ -189,6 +198,7 @@ public class HandRanker {
     //
     //The following are suits checking methods
     public boolean handHasAllSameSuit(ArrayList<Card> handBeingChecked) {
+        System.out.println("This is count of suits inside handHasAllSameSuit: " + countSuits(handBeingChecked));
         Map suitsOfCurrentHand = countSuits(handBeingChecked);
 
         //this is true if any one of the keys has a value of 5
@@ -237,11 +247,14 @@ public class HandRanker {
     }
 
     public void assignHandWorth(Player playerBeingRanked) {
-        ArrayList<Card> handBeingProcessed = playerBeingRanked.getCurrentHandOfCards();
+        HandOfCards currentHandStatus = playerBeingRanked.getCurrentHandInformation();
+        ArrayList<Card> handBeingProcessed = currentHandStatus.getCards();
+
+        System.out.println("This is the hand being processed inside assignHandWorth and being passed into checkStraightFlush: ");
         System.out.println(handBeingProcessed);
 
-        if(checkStraightFlush(handBeingProcessed){
-         handBeingProcessed.setCurrentHandValue();
+        if(checkStraightFlush(handBeingProcessed)) {
+            currentHandStatus.setCurrentHandValue(handRankNamesAndWorth.get(STRAIGHT_FLUSH));
         }
         checkFourOfAKind(handBeingProcessed);
     }
