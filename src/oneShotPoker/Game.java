@@ -99,8 +99,10 @@ public class Game{
         // _ set winner
             // This should also probably be the dealer's job...
             // Player.isWinner(true);
-        // _ output outcome
+        // _ show winner
             // ...and this should ALSO be the dealer's job. The Game calls the Dealer's actions in the loop.
+            // declare the winner
+            // show the winner's winning hand type and their cards, show the loser's hand type and their cards?
         // _ record stats *extra*
         // _ end game
         // _ play again or exit?

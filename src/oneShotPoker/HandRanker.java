@@ -1,5 +1,6 @@
 package oneShotPoker;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 //TODO: Do I need these explicit imports? More DRY way to access?
@@ -88,24 +89,24 @@ public class HandRanker {
        for(int i=0; i<handOfCards.size(); i++){
            Card.Suits currentCardSuit = handOfCards.get(i).getSuit();
 
-           System.out.println("Checking this suit for each player in countSuits " + currentCardSuit);
+//           System.out.println("Checking this suit for each player in countSuits " + currentCardSuit);
 
            switch(currentCardSuit) {
 
                case CLUBS:
-                   System.out.println("We got us a club");
+//                   System.out.println("We got us a club");
                    suitsCounter.put(CLUBS, suitsCounter.get(CLUBS) + 1);
                    break;
                case DIAMONDS:
-                   System.out.println("We got us a diamond");
+//                   System.out.println("We got us a diamond");
                    suitsCounter.put(DIAMONDS, suitsCounter.get(DIAMONDS) + 1);
                    break;
                case HEARTS:
-                   System.out.println("We got us a heart");
+//                   System.out.println("We got us a heart");
                    suitsCounter.put(HEARTS, suitsCounter.get(HEARTS) + 1);
                    break;
                case SPADES:
-                   System.out.println("We got us a spade");
+//                   System.out.println("We got us a spade");
                    suitsCounter.put(SPADES, suitsCounter.get(SPADES) + 1);
                    break;
 
@@ -122,7 +123,7 @@ public class HandRanker {
         for(int i=0; i<handOfCards.size(); i++){
             Card.Ranks currentCardRank = handOfCards.get(i).getRank();
 
-            System.out.println("Checking this suit for each player in countRanks " + currentCardRank);
+            System.out.println("Checking this rank for each player in countRanks " + currentCardRank);
 
             switch(currentCardRank) {
 
@@ -203,9 +204,10 @@ public class HandRanker {
         return true;
     }
 
-    public boolean handHasPair() {
-        // this is true when at least one of the keys in suitsCounter has a value 2
-        return false;
+    public boolean handHasPair(ArrayList<Card> handBeingChecked) {
+        System.out.println("This is count of the ranks inside handHasPair: " + countRanks(handBeingChecked));
+        int ranksFrequencies = Collections.frequency(countRanks(handBeingChecked).values(), 2);
+        return ranksFrequencies == 1;
     }
 
     public boolean handHasTwoPair() {
@@ -254,8 +256,14 @@ public class HandRanker {
         return false;
     }
 
+    public boolean isPair(ArrayList<Card> handBeingChecked) {
+        System.out.println("Checking for a Pair...");
+        return handHasPair(handBeingChecked);
+    }
+
     //**________________________ASSIGN HAND WORTH METHOD________________________**
     //implement a worth lookup method
+    // remake hand worth map, put here
     // public int lookupHandWorth(handBeingProcessed);
     public void assignHandWorth(Player playerBeingRanked) {
         HandOfCards currentHandStatus = playerBeingRanked.getCurrentHandInformation();
@@ -276,7 +284,10 @@ public class HandRanker {
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isFourOfAKind(handBeingProcessed)) {
             System.out.println("The hand is a Four of a Kind!");
-            // repeat looking up worth of a four of a kind and assign it to hand information
+            // call lookupHandWorth and setCurrentHandWorth
+        } else if(isPair(handBeingProcessed)) {
+            System.out.println("No special ranks. The hand has 1 pair.");
+            // call lookupHandWorth and setCurrentHandWorth
         } else {
             System.out.println("No special ranks. The player can only win on high card");
             getHighCard(handBeingProcessed);
