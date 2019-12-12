@@ -43,7 +43,7 @@ public class HandRanker {
     X Straight flush: 5 cards of the same suit && consecutive values.
         Dealer Class job -> Ranked by the highest card in the hand.
 
-    Four of a kind: 4 cards with the same value. Ranked by the value of the 4 cards.
+    X Four of a kind: 4 cards with the same value. Ranked by the value of the 4 cards.
 
     Full House: 3 cards of the same value, with the remaining 2 cards forming a pair. Ranked by the value of the 3 cards.
 
@@ -127,55 +127,55 @@ public class HandRanker {
             switch(currentCardRank) {
 
                 case TWO:
-                    System.out.println("We got us a two!");
+//                    System.out.println("We got us a two!");
                     ranksCounter.put(TWO, ranksCounter.get(TWO) + 1);
                     break;
                 case THREE:
-                    System.out.println("We got us a three!");
+//                    System.out.println("We got us a three!");
                     ranksCounter.put(THREE, ranksCounter.get(THREE) + 1);
                     break;
                 case FOUR:
-                    System.out.println("We got us a four!");
+//                    System.out.println("We got us a four!");
                     ranksCounter.put(FOUR, ranksCounter.get(FOUR) + 1);
                     break;
                 case FIVE:
-                    System.out.println("We got us a five!");
+//                    System.out.println("We got us a five!");
                     ranksCounter.put(FIVE, ranksCounter.get(FIVE) + 1);
                     break;
                 case SIX:
-                    System.out.println("We got us a six!");
+//                    System.out.println("We got us a six!");
                     ranksCounter.put(SIX, ranksCounter.get(SIX) + 1);
                     break;
                 case SEVEN:
-                    System.out.println("We got us a seven!");
+//                    System.out.println("We got us a seven!");
                     ranksCounter.put(SEVEN, ranksCounter.get(SEVEN) + 1);
                     break;
                 case EIGHT:
-                    System.out.println("We got us a eight!");
+//                    System.out.println("We got us a eight!");
                     ranksCounter.put(EIGHT, ranksCounter.get(EIGHT) + 1);
                     break;
                 case NINE:
-                    System.out.println("We got us a nine!");
+//                    System.out.println("We got us a nine!");
                     ranksCounter.put(NINE, ranksCounter.get(NINE) + 1);
                     break;
                 case TEN:
-                    System.out.println("We got us a ten!");
+//                    System.out.println("We got us a ten!");
                     ranksCounter.put(TEN, ranksCounter.get(TEN) + 1);
                     break;
                 case JACK:
-                    System.out.println("We got us a jack!");
+//                    System.out.println("We got us a jack!");
                     ranksCounter.put(JACK, ranksCounter.get(JACK) + 1);
                     break;
                 case QUEEN:
-                    System.out.println("We got us a queen!");
+//                    System.out.println("We got us a queen!");
                     ranksCounter.put(QUEEN, ranksCounter.get(QUEEN) + 1);
                     break;
                 case KING:
-                    System.out.println("We got us a king!");
+//                    System.out.println("We got us a king!");
                     ranksCounter.put(KING, ranksCounter.get(KING) + 1);
                     break;
                 case ACE:
-                    System.out.println("We got us a ace");
+//                    System.out.println("We got us a ace");
                     ranksCounter.put(ACE, ranksCounter.get(ACE) + 1);
                     break;
             }
@@ -220,8 +220,10 @@ public class HandRanker {
         return ranksFrequencies == 2;
     }
 
-    public boolean handHasTrio() {
-        return false;
+    public boolean handHasThreeSameValues(ArrayList<Card> handBeingChecked) {
+        System.out.println("This is count of the ranks inside handHasFourSameValues: " + countRanks(handBeingChecked));
+        int ranksFrequencies = Collections.frequency(countRanks(handBeingChecked).values(), 3);
+        return ranksFrequencies == 1;
     }
 
     //TODO: Cleanup print statements
@@ -262,6 +264,11 @@ public class HandRanker {
         return handHasAllConsecutiveValues(handBeingChecked);
     }
 
+    public boolean isThreeOfAKind(ArrayList<Card> handBeingChecked) {
+        System.out.println("Checking for Three of a Kind...");
+        return handHasThreeSameValues(handBeingChecked);
+    }
+
     public boolean isTwoPair(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Two Pair...");
         return handHasTwoPair(handBeingChecked);
@@ -295,6 +302,9 @@ public class HandRanker {
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isStraight(handBeingProcessed)) {
             System.out.println("The hand is a Straight!");
+            // call lookupHandWorth and setCurrentHandWorth
+        } else if(isThreeOfAKind(handBeingProcessed)) {
+            System.out.println("The hand is a Three of a Kind!");
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isTwoPair(handBeingProcessed)) {
             System.out.println("The hand is a Four of a Kind!");

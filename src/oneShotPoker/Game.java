@@ -64,7 +64,7 @@ public class Game{
 
             //TODO: smell? Wrap these in private methods?
             gameDeck.setupNewDeck();
-            gameDeck.validateDeck();
+//            gameDeck.validateDeck();
 
             dealHands();
 
