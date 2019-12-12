@@ -47,7 +47,7 @@ public class HandRanker {
 
     Full House: 3 cards of the same value, with the remaining 2 cards forming a pair. Ranked by the value of the 3 cards.
 
-    Flush: Hand contains 5 cards of the same suit.
+    X Flush: Hand contains 5 cards of the same suit.
         Dealer Class job ->  Hands which are both flushes are ranked using the rules for High Card.
 
     X Straight: Hand contains 5 cards with consecutive values.
@@ -244,14 +244,19 @@ public class HandRanker {
         return handHasAllConsecutiveValues(handBeingChecked);
     }
 
+    public boolean isFlush(ArrayList<Card> handBeingChecked) {
+        System.out.println("Checking for Flush...");
+        return handHasAllSameSuit(handBeingChecked);
+    }
+
     public boolean isFourOfAKind(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Four of a Kind...");
         return false;
     }
 
+    //**________________________ASSIGN HAND WORTH METHOD________________________**
     //implement a worth lookup method
     // public int lookupHandWorth(handBeingProcessed);
-
     public void assignHandWorth(Player playerBeingRanked) {
         HandOfCards currentHandStatus = playerBeingRanked.getCurrentHandInformation();
         ArrayList<Card> handBeingProcessed = currentHandStatus.getCards();
@@ -265,6 +270,9 @@ public class HandRanker {
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isStraight(handBeingProcessed)) {
             System.out.println("The hand is a Straight!");
+            // call lookupHandWorth and setCurrentHandWorth
+        } else if(isFlush(handBeingProcessed)) {
+            System.out.println("The hand is a Flush!");
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isFourOfAKind(handBeingProcessed)) {
             System.out.println("The hand is a Four of a Kind!");
