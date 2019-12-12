@@ -50,7 +50,7 @@ public class HandRanker {
     Flush: Hand contains 5 cards of the same suit.
         Dealer Class job ->  Hands which are both flushes are ranked using the rules for High Card.
 
-    Straight: Hand contains 5 cards with consecutive values.
+    X Straight: Hand contains 5 cards with consecutive values.
         Dealer Class job ->Hands which both contain a straight are ranked by their highest card.
 
     Three of a Kind: Three of the cards in the hand have the same value. Hands which both contain three of a kind are ranked by the value of the 3 cards.
@@ -239,6 +239,11 @@ public class HandRanker {
         return handHasAllSameSuit(handBeingChecked) && handHasAllConsecutiveValues(handBeingChecked);
     }
 
+    public boolean isStraight(ArrayList<Card> handBeingChecked) {
+        System.out.println("Checking for Straight...");
+        return handHasAllConsecutiveValues(handBeingChecked);
+    }
+
     public boolean isFourOfAKind(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Four of a Kind...");
         return false;
@@ -257,6 +262,9 @@ public class HandRanker {
         //TODO: What better way to implement this?
         if(isStraightFlush(handBeingProcessed)) {
             System.out.println("The hand is a Straight Flush!");
+            // call lookupHandWorth and setCurrentHandWorth
+        } else if(isStraight(handBeingProcessed)) {
+            System.out.println("The hand is a Straight!");
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isFourOfAKind(handBeingProcessed)) {
             System.out.println("The hand is a Four of a Kind!");
