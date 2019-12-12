@@ -202,6 +202,12 @@ public class HandRanker {
         return true;
     }
 
+    public boolean handHasFourSameValues(ArrayList<Card> handBeingChecked) {
+        System.out.println("This is count of the ranks inside handHasFourSameValues: " + countRanks(handBeingChecked));
+        int ranksFrequencies = Collections.frequency(countRanks(handBeingChecked).values(), 4);
+        return ranksFrequencies == 1;
+    }
+
     public boolean handHasPair(ArrayList<Card> handBeingChecked) {
         System.out.println("This is count of the ranks inside handHasPair: " + countRanks(handBeingChecked));
         int ranksFrequencies = Collections.frequency(countRanks(handBeingChecked).values(), 2);
@@ -235,14 +241,15 @@ public class HandRanker {
     }
 
     //**________________________COMPOSED HAND TYPE METHODS________________________**
+
     public boolean isStraightFlush(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Straight Flush...");
         return handHasAllSameSuit(handBeingChecked) && handHasAllConsecutiveValues(handBeingChecked);
     }
 
-    public boolean isStraight(ArrayList<Card> handBeingChecked) {
-        System.out.println("Checking for Straight...");
-        return handHasAllConsecutiveValues(handBeingChecked);
+    public boolean isFourOfAKind(ArrayList<Card> handBeingChecked) {
+        System.out.println("Checking for Four of a Kind...");
+        return handHasFourSameValues(handBeingChecked);
     }
 
     public boolean isFlush(ArrayList<Card> handBeingChecked) {
@@ -250,9 +257,9 @@ public class HandRanker {
         return handHasAllSameSuit(handBeingChecked);
     }
 
-    public boolean isFourOfAKind(ArrayList<Card> handBeingChecked) {
-        System.out.println("Checking for Four of a Kind...");
-        return false;
+    public boolean isStraight(ArrayList<Card> handBeingChecked) {
+        System.out.println("Checking for Straight...");
+        return handHasAllConsecutiveValues(handBeingChecked);
     }
 
     public boolean isTwoPair(ArrayList<Card> handBeingChecked) {
@@ -280,14 +287,14 @@ public class HandRanker {
         if(isStraightFlush(handBeingProcessed)) {
             System.out.println("The hand is a Straight Flush!");
             // call lookupHandWorth and setCurrentHandWorth
-        } else if(isStraight(handBeingProcessed)) {
-            System.out.println("The hand is a Straight!");
+        } else if(isFourOfAKind(handBeingProcessed)) {
+            System.out.println("The hand is a Four of a Kind!");
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isFlush(handBeingProcessed)) {
             System.out.println("The hand is a Flush!");
             // call lookupHandWorth and setCurrentHandWorth
-        } else if(isFourOfAKind(handBeingProcessed)) {
-            System.out.println("The hand is a Four of a Kind!");
+        } else if(isStraight(handBeingProcessed)) {
+            System.out.println("The hand is a Straight!");
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isTwoPair(handBeingProcessed)) {
             System.out.println("The hand is a Four of a Kind!");
