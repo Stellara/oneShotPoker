@@ -1,6 +1,5 @@
 package oneShotPoker;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 //TODO: Do I need these explicit imports? More DRY way to access?
@@ -56,11 +55,11 @@ public class HandRanker {
 
     Three of a Kind: Three of the cards in the hand have the same value. Hands which both contain three of a kind are ranked by the value of the 3 cards.
 
-    Two Pairs: The hand contains 2 different pairs. Hands which both contain 2 pairs are ranked by the value of their highest pair. Hands with the same highest pair are ranked by the  value of their other pair. If these values are the same the hands are ranked by the value of the remaining card.
+    X Two Pairs: The hand contains 2 different pairs. Hands which both contain 2 pairs are ranked by the value of their highest pair. Hands with the same highest pair are ranked by the  value of their other pair. If these values are the same the hands are ranked by the value of the remaining card.
 
-    Pair: 2 of the 5 cards in the hand have the same value. Hands which both contain a pair are ranked by the value of the cards forming the pair. If these         values   are the same, the hands are ranked by the values of the cards not forming the pair, in decreasing order.
+    X Pair: 2 of the 5 cards in the hand have the same value. Hands which both contain a pair are ranked by the value of the cards forming the pair. If these         values   are the same, the hands are ranked by the values of the cards not forming the pair, in decreasing order.
 
-    High Card: Hands which do not fit any higher category are ranked by the value of their highest card.
+    X High Card: Hands which do not fit any higher category are ranked by the value of their highest card.
        Dealer class job -> If the highest cards have the same value, the hands are    ranked   by the next highest, and so on.
      */
     // **________________________________________________END RANKING RULES________________________________________________**
@@ -188,7 +187,6 @@ public class HandRanker {
     public boolean handHasAllSameSuit(ArrayList<Card> handBeingChecked) {
         System.out.println("This is count of suits inside handHasAllSameSuit: " + countSuits(handBeingChecked));
         int suitsFrequencies = Collections.frequency(countSuits(handBeingChecked).values(), 5);
-        //this is true if any one of the keys has a value of 5
         return suitsFrequencies == 5;
     }
 
@@ -210,9 +208,10 @@ public class HandRanker {
         return ranksFrequencies == 1;
     }
 
-    public boolean handHasTwoPair() {
-        // this is true when
-        return false;
+    public boolean handHasTwoPair(ArrayList<Card> handBeingChecked) {
+        System.out.println("This is count of the ranks inside handHasTwoPair: " + countRanks(handBeingChecked));
+        int ranksFrequencies = Collections.frequency(countRanks(handBeingChecked).values(), 2);
+        return ranksFrequencies == 2;
     }
 
     public boolean handHasTrio() {
@@ -256,6 +255,11 @@ public class HandRanker {
         return false;
     }
 
+    public boolean isTwoPair(ArrayList<Card> handBeingChecked) {
+        System.out.println("Checking for Two Pair...");
+        return handHasTwoPair(handBeingChecked);
+    }
+
     public boolean isPair(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for a Pair...");
         return handHasPair(handBeingChecked);
@@ -283,6 +287,9 @@ public class HandRanker {
             System.out.println("The hand is a Flush!");
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isFourOfAKind(handBeingProcessed)) {
+            System.out.println("The hand is a Four of a Kind!");
+            // call lookupHandWorth and setCurrentHandWorth
+        } else if(isTwoPair(handBeingProcessed)) {
             System.out.println("The hand is a Four of a Kind!");
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isPair(handBeingProcessed)) {
