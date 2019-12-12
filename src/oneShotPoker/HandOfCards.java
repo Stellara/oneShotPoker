@@ -5,8 +5,9 @@ import java.util.ArrayList;
 public class HandOfCards {
     private ArrayList<Card> cards = new ArrayList<>();
     //TODO: Should this be on the player or on the hand?
-    private int currentHandValue = 0;
+    private int currentHandWorth = 0;
     private String currentRankName = "";
+    //TODO: implement a winningCards property that the HandRanker sets?
 
     public ArrayList<Card> getCards() {
         return this.cards;
@@ -17,11 +18,11 @@ public class HandOfCards {
     }
 
     public int getCurrentHandWorth() {
-        return this.currentHandValue;
+        return this.currentHandWorth;
     }
 
     public void setCurrentHandWorth(int newHandWorth) {
-        this.currentHandValue = newHandWorth;
+        this.currentHandWorth = newHandWorth;
     }
 
     public String getCurrentHandRankName() {

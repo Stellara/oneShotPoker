@@ -11,7 +11,5 @@ public class GameRunner {
 
         // responsible for running the game loop, the Game class itself handles its implementation of poker
         // this should be some of the most concise code outside of Card
-
-
     }
 }

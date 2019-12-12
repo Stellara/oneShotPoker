@@ -26,18 +26,33 @@ import static oneShotPoker.Card.Ranks.ACE;
 
 
 public class HandRanker {
-    private static final String STRAIGHT_FLUSH = "Straight Flush";
-    private static final String FOUR_OF_A_KIND = "Four of a Kind";
-    private static final String FULL_HOUSE = "Full House";
-    private static final String FLUSH = "Flush";
-    private static final String STRAIGHT = "Straight";
-    private static final String THREE_OF_A_KIND = "Three of a Kind";
-    private static final String TWO_PAIRS = "Two Pairs";
-    private static final String PAIR = "Pair" ;
-    private static final String HIGH_CARD = "High Card";
-
     Comparator<Card> byCardRank = Comparator
             .comparing(Card::getRankAsInt);
+
+    public enum HandWorth {
+        STRAIGHT_FLUSH("Straight Flush", 9),
+        FOUR_OF_A_KIND("Four of a Kind", 8),
+        FULL_HOUSE("Full House", 7),
+        FLUSH("Flush", 6),
+        STRAIGHT("Straight", 5),
+        THREE_OF_A_KIND("Three of a Kind", 4),
+        TWO_PAIR("Two Pair", 3),
+        PAIR("Pair", 2),
+        HIGH_CARD("High Card", 1);
+
+
+
+        public final String handName;
+        public final int handWorth;
+
+        private HandWorth(String handName, int handWorth) {
+            this.handName = handName;
+            this.handWorth = handWorth;
+        }
+
+    }
+
+    private HandWorth handWorth;
 
     /*   **________________________________________________RANKING RULES________________________________________________**
     X Straight flush: 5 cards of the same suit && consecutive values.
@@ -45,7 +60,7 @@ public class HandRanker {
 
     X Four of a kind: 4 cards with the same value. Ranked by the value of the 4 cards.
 
-    Full House: 3 cards of the same value, with the remaining 2 cards forming a pair. Ranked by the value of the 3 cards.
+    X Full House: 3 cards of the same value, with the remaining 2 cards forming a pair. Ranked by the value of the 3 cards.
 
     X Flush: Hand contains 5 cards of the same suit.
         Dealer Class job ->  Hands which are both flushes are ranked using the rules for High Card.
@@ -301,36 +316,53 @@ public class HandRanker {
         }
 
         //TODO: What better way to implement this?
+        //TODO: Lots of repetition. Can I DRY it up?
         if(isStraightFlush(handBeingProcessed)) {
             System.out.println("The hand is a Straight Flush!");
-            // call lookupHandWorth and setCurrentHandWorth
+            currentHandStatus.setCurrentHandRankName(handWorth.STRAIGHT_FLUSH.handName);
+            currentHandStatus.setCurrentHandWorth(handWorth.STRAIGHT_FLUSH.handWorth);
+            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth());
         } else if(isFourOfAKind(handBeingProcessed)) {
             System.out.println("The hand is a Four of a Kind!");
-            // call lookupHandWorth and setCurrentHandWorth
+            currentHandStatus.setCurrentHandRankName(handWorth.FOUR_OF_A_KIND.handName);
+            currentHandStatus.setCurrentHandWorth(handWorth.FOUR_OF_A_KIND.handWorth);
+            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth());
         } else if(isFullHouse(handBeingProcessed)) {
             System.out.println("The hand is a Full House!");
-            // call lookupHandWorth and setCurrentHandWorth
+            currentHandStatus.setCurrentHandRankName(handWorth.FULL_HOUSE.handName);
+            currentHandStatus.setCurrentHandWorth(handWorth.FULL_HOUSE.handWorth);
+            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth());
         } else if(isFlush(handBeingProcessed)) {
             System.out.println("The hand is a Flush!");
-            // call lookupHandWorth and setCurrentHandWorth
+            currentHandStatus.setCurrentHandRankName(handWorth.FLUSH.handName);
+            currentHandStatus.setCurrentHandWorth(handWorth.FLUSH.handWorth);
+            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth());
         } else if(isStraight(handBeingProcessed)) {
             System.out.println("The hand is a Straight!");
-            // call lookupHandWorth and setCurrentHandWorth
+            currentHandStatus.setCurrentHandRankName(handWorth.STRAIGHT.handName);
+            currentHandStatus.setCurrentHandWorth(handWorth.STRAIGHT.handWorth);
+            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth());
         } else if(isThreeOfAKind(handBeingProcessed)) {
             System.out.println("The hand is a Three of a Kind!");
-            // call lookupHandWorth and setCurrentHandWorth
+            currentHandStatus.setCurrentHandRankName(handWorth.THREE_OF_A_KIND.handName);
+            currentHandStatus.setCurrentHandWorth(handWorth.THREE_OF_A_KIND.handWorth);
+            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName() + " " + currentHandStatus.getCurrentHandWorth());
         } else if(isTwoPair(handBeingProcessed)) {
             System.out.println("The hand is a Four of a Kind!");
-            // call lookupHandWorth and setCurrentHandWorth
-        } else if(isTwoPair(handBeingProcessed)) {
-            System.out.println("The hand is a Four of a Kind!");
-            // call lookupHandWorth and setCurrentHandWorth
+            currentHandStatus.setCurrentHandRankName(handWorth.TWO_PAIR.handName);
+            currentHandStatus.setCurrentHandWorth(handWorth.TWO_PAIR.handWorth);
+            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName()+ " " + currentHandStatus.getCurrentHandWorth());
         } else if(isPair(handBeingProcessed)) {
-            System.out.println("No special ranks. The hand has 1 pair.");
-            // call lookupHandWorth and setCurrentHandWorth
+            System.out.println("The hand is a Pair!");
+            currentHandStatus.setCurrentHandRankName(handWorth.PAIR.handName);
+            currentHandStatus.setCurrentHandWorth(handWorth.PAIR.handWorth);
+            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName() + " " + currentHandStatus.getCurrentHandWorth());
         } else {
             System.out.println("No special ranks. The player can only win on high card");
-            getHighCard(handBeingProcessed);
+            getHighCard(handBeingProcessed); // what do I set this to for the dealer?
+            currentHandStatus.setCurrentHandRankName(handWorth.HIGH_CARD.handName);
+            currentHandStatus.setCurrentHandWorth(handWorth.HIGH_CARD.handWorth);
+            System.out.println("Hand Rank info: " +  currentHandStatus.getCurrentHandRankName() + " " + currentHandStatus.getCurrentHandWorth());
         }
     }
 
