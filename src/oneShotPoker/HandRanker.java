@@ -39,29 +39,31 @@ public class HandRanker {
     Comparator<Card> byCardRank = Comparator
             .comparing(Card::getRankAsInt);
 
-    //Should I big switch that checks each of these?
-    // Should I make each of these individual methods, passing in the player's hand?
-    //Assigning a rank means that it needs the internal rank value + what kind of semantic hand they have for communications purposes
-
-    /* RANKING RULES
-    X Straight flush: 5 cards of the same suit with consecutive values. Ranked by the highest card in the hand.
+    /*   **________________________________________________RANKING RULES________________________________________________**
+    X Straight flush: 5 cards of the same suit && consecutive values.
+        Dealer Class job -> Ranked by the highest card in the hand.
 
     Four of a kind: 4 cards with the same value. Ranked by the value of the 4 cards.
 
     Full House: 3 cards of the same value, with the remaining 2 cards forming a pair. Ranked by the value of the 3 cards.
 
-    Flush: Hand contains 5 cards of the same suit. Hands which are both flushes are ranked using the rules for High Card.
+    Flush: Hand contains 5 cards of the same suit.
+        Dealer Class job ->  Hands which are both flushes are ranked using the rules for High Card.
 
-    Straight: Hand contains 5 cards with consecutive values. Hands which both contain a straight are ranked by their highest card.
+    Straight: Hand contains 5 cards with consecutive values.
+        Dealer Class job ->Hands which both contain a straight are ranked by their highest card.
 
     Three of a Kind: Three of the cards in the hand have the same value. Hands which both contain three of a kind are ranked by the value of the 3 cards.
 
-    Two Pairs: The hand contains 2 different pairs. Hands which both contain 2 pairs are ranked by the value of their highest pair. Hands with the same highest     pair     are ranked by the value of their other pair. If these values are the same the hands are ranked by the value of the remaining card.
+    Two Pairs: The hand contains 2 different pairs. Hands which both contain 2 pairs are ranked by the value of their highest pair. Hands with the same highest pair are ranked by the  value of their other pair. If these values are the same the hands are ranked by the value of the remaining card.
 
     Pair: 2 of the 5 cards in the hand have the same value. Hands which both contain a pair are ranked by the value of the cards forming the pair. If these         values   are the same, the hands are ranked by the values of the cards not forming the pair, in decreasing order.
 
-    High Card: Hands which do not fit any higher category are ranked by the value of their highest card. If the highest cards have the same value, the hands are    ranked   by the next highest, and so on.
+    High Card: Hands which do not fit any higher category are ranked by the value of their highest card.
+       Dealer class job -> If the highest cards have the same value, the hands are    ranked   by the next highest, and so on.
      */
+    // **________________________________________________END RANKING RULES________________________________________________**
+
     private static Map<Card.Suits, Integer> createSuitsCounter() {
         Map<Card.Suits, Integer> suitsCounter = new HashMap<>();
         for (Card.Suits suit : Card.Suits.values()) {
@@ -181,7 +183,7 @@ public class HandRanker {
         return ranksCounter;
     }
 
-    //**SUIT CHECKING ATOMIC METHODS**
+    //**___________________________SUIT CHECKING ATOMIC METHODS___________________________**
     public boolean handHasAllSameSuit(ArrayList<Card> handBeingChecked) {
         System.out.println("This is count of suits inside handHasAllSameSuit: " + countSuits(handBeingChecked));
         int suitsFrequencies = Collections.frequency(countSuits(handBeingChecked).values(), 5);
@@ -189,7 +191,7 @@ public class HandRanker {
         return suitsFrequencies == 5;
     }
 
-    //**RANK VALUES CHECKING ATOMIC METHODS***
+    //**________________________RANK VALUES CHECKING ATOMIC METHODS________________________**
     public boolean handHasAllConsecutiveValues(ArrayList<Card> handBeingChecked) {
         Collections.sort(handBeingChecked, byCardRank);
 
@@ -231,9 +233,7 @@ public class HandRanker {
         return handBeingChecked.get(4);
     }
 
-    //check hand type methods should all be compositions of the atomic handHasX methods
-    // checkX returns what? boolean, just sets the properties on the hand for value and rankname?
-    //assignWorthAndHandRanks should be composition of the check hand type methods, put the big switch in there?
+    //**________________________COMPOSED HAND TYPE METHODS________________________**
     public boolean isStraightFlush(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Straight Flush...");
         return handHasAllSameSuit(handBeingChecked) && handHasAllConsecutiveValues(handBeingChecked);
