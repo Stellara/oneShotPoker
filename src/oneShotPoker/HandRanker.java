@@ -274,6 +274,11 @@ public class HandRanker {
         return handHasTwoPair(handBeingChecked);
     }
 
+    public boolean isTwoPair(ArrayList<Card> handBeingChecked) {
+        System.out.println("Checking for Two Pair...");
+        return handHasTwoPair(handBeingChecked);
+    }
+
     public boolean isPair(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for a Pair...");
         return handHasPair(handBeingChecked);
@@ -305,6 +310,9 @@ public class HandRanker {
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isThreeOfAKind(handBeingProcessed)) {
             System.out.println("The hand is a Three of a Kind!");
+            // call lookupHandWorth and setCurrentHandWorth
+        } else if(isTwoPair(handBeingProcessed)) {
+            System.out.println("The hand is a Four of a Kind!");
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isTwoPair(handBeingProcessed)) {
             System.out.println("The hand is a Four of a Kind!");
