@@ -45,6 +45,10 @@ public class Card{
         return this.rank;
     }
 
+    public int getRankWorth() {
+        return this.rank.rankWorth;
+    }
+
     public Suits getSuit() {
         return this.suit;
     }

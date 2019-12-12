@@ -1,9 +1,6 @@
 package oneShotPoker;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 //TODO: Do I need these explicit imports? More DRY way to access?
 import static oneShotPoker.Card.Suits.CLUBS;
@@ -38,6 +35,10 @@ public class HandRanker {
     private static final String TWO_PAIRS = "Two Pairs";
     private static final String PAIR = "Pair" ;
     private static final String HIGH_CARD = "High Card";
+
+    Comparator<Card> byCardRank = Comparator
+            .comparing(Card::getRankWorth);
+
     //Should I big switch that checks each of these?
     // Should I make each of these individual methods, passing in the player's hand?
     //Assigning a rank means that it needs the internal rank value + what kind of semantic hand they have for communications purposes
@@ -181,7 +182,6 @@ public class HandRanker {
     }
 
 
-
     //**These atomic functions will be composed together in the check hand type functions, with a combination of suits counting and values comparisons
     //
     //The following are suits checking methods
@@ -215,18 +215,26 @@ public class HandRanker {
         return false;
     }
 
-    public int getHighCardValue(ArrayList<Card> handBeingChecked) {
+    //TODO: Cleanup print statements
+    public Card getHighCard(ArrayList<Card> handBeingChecked) {
         System.out.println("Getting high card value for " + handBeingChecked + "...");
-        System.out.println(countRanks(handBeingChecked));
-        return 999;
+        Collections.sort(handBeingChecked, byCardRank);
+
+        System.out.println("This is the sorted hand being checked: ");
+        for(int i=0; i < handBeingChecked.size(); i++){
+            System.out.print(handBeingChecked.get(i).getRank());
+            System.out.print(handBeingChecked.get(i).getSuit());
+            System.out.print(" ");
+        }
+
+        System.out.println("This is the high card..." + handBeingChecked.get(4).getRank() + handBeingChecked.get(4).getSuit());
+        return handBeingChecked.get(4);
     }
-
-
 
     //check hand type methods should all be compositions of the atomic handHasX methods
     // checkX returns what? boolean, just sets the properties on the hand for value and rankname?
     //assignWorthAndHandRanks should be composition of the check hand type methods, put the big switch in there?
-    public boolean checkStraightFlush(ArrayList<Card> handBeingChecked) {
+    public boolean isStraightFlush(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Straight Flush...");
         return handHasAllSameSuit(handBeingChecked);
 
@@ -235,22 +243,31 @@ public class HandRanker {
         // Should assignHandWorth have an if-else tree or a switch?
     }
 
-    public void checkFourOfAKind(ArrayList<Card> handBeingChecked) {
+    public void isFourOfAKind(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Four of a Kind...");
     }
+
+    //implement a worth lookup method
+    // public int lookupHandWorth(handBeingProcessed);
 
     public void assignHandWorth(Player playerBeingRanked) {
         HandOfCards currentHandStatus = playerBeingRanked.getCurrentHandInformation();
         ArrayList<Card> handBeingProcessed = currentHandStatus.getCards();
 
-        System.out.println("This is the hand being processed inside assignHandWorth and being passed into checkStraightFlush: ");
+        System.out.println("This is the hand being processed inside assignHandWorth: ");
         System.out.println(handBeingProcessed);
 
-        if(checkStraightFlush(handBeingProcessed)) {
-//            look up the worth of a straight flush from the enum, assign it to the hand information
+        //TODO: What better way to implement this?
+        if(isStraightFlush(handBeingProcessed)) {
+            System.out.println("The hand is a Straight Flush!");
+            // call lookupHandWorth and setCurrentHandWorth
+        } else if(isFourOfAKind(handBeingProcessed)) {
+            System.out.println("The hand is a Four of a Kind!");
+            // repeat looking up worth of a four of a kind and assign it to hand information
+        } else {
+            System.out.println("No special ranks. The player can only win on high card");
+            getHighCard(handBeingProcessed);
         }
-        checkFourOfAKind(handBeingProcessed);
-        getHighCardValue(handBeingProcessed);
     }
 
 }

@@ -16,12 +16,12 @@ public class HandOfCards {
         this.cards.add(newCardToAdd);
     }
 
-    public int getCurrentHandValue() {
+    public int getCurrentHandWorth() {
         return this.currentHandValue;
     }
 
-    public void setCurrentHandValue(int newHandValue) {
-        this.currentHandValue = newHandValue;
+    public void setCurrentHandWorth(int newHandWorth) {
+        this.currentHandValue = newHandWorth;
     }
 
     public String getCurrentHandRankName() {
