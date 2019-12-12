@@ -37,14 +37,14 @@ public class HandRanker {
     private static final String HIGH_CARD = "High Card";
 
     Comparator<Card> byCardRank = Comparator
-            .comparing(Card::getRankWorth);
+            .comparing(Card::getRankAsInt);
 
     //Should I big switch that checks each of these?
     // Should I make each of these individual methods, passing in the player's hand?
     //Assigning a rank means that it needs the internal rank value + what kind of semantic hand they have for communications purposes
 
     /* RANKING RULES
-    Straight flush: 5 cards of the same suit with consecutive values. Ranked by the highest card in the hand.
+    X Straight flush: 5 cards of the same suit with consecutive values. Ranked by the highest card in the hand.
 
     Four of a kind: 4 cards with the same value. Ranked by the value of the 4 cards.
 
@@ -181,24 +181,24 @@ public class HandRanker {
         return ranksCounter;
     }
 
-
-    //**These atomic functions will be composed together in the check hand type functions, with a combination of suits counting and values comparisons
-    //
-    //The following are suits checking methods
+    //**SUIT CHECKING ATOMIC METHODS**
     public boolean handHasAllSameSuit(ArrayList<Card> handBeingChecked) {
         System.out.println("This is count of suits inside handHasAllSameSuit: " + countSuits(handBeingChecked));
-         int suitsFrequencies = Collections.frequency(countSuits(handBeingChecked).values(), 5);
+        int suitsFrequencies = Collections.frequency(countSuits(handBeingChecked).values(), 5);
         //this is true if any one of the keys has a value of 5
         return suitsFrequencies == 5;
     }
 
-    //The following are values checking methods
-    //We need to check for counts of 5, 4, 3, 2 of same value
-    //Make a value count function that returns the number of same values
-    public boolean handHasAllConsecutiveValues() {
-        // implement a recursive function here
-        // this is true when card 1 is smaller than card 0, card 2 is smaller than card 1, etc after sorting by value
-        return false;
+    //**RANK VALUES CHECKING ATOMIC METHODS***
+    public boolean handHasAllConsecutiveValues(ArrayList<Card> handBeingChecked) {
+        Collections.sort(handBeingChecked, byCardRank);
+
+        for (int i = 1; i < handBeingChecked.size(); i++) {
+            if (handBeingChecked.get(i).getRankAsInt() != handBeingChecked.get(i-1).getRankAsInt() + 1) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean handHasPair() {
@@ -236,15 +236,12 @@ public class HandRanker {
     //assignWorthAndHandRanks should be composition of the check hand type methods, put the big switch in there?
     public boolean isStraightFlush(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Straight Flush...");
-        return handHasAllSameSuit(handBeingChecked);
-
-        //Implement rest of logic for what constitutes a Straight Flush and score it
-        // If it is a straight flush, then what? Set the hand's worth and name? What stops the rest of assignHandWorth from firing?
-        // Should assignHandWorth have an if-else tree or a switch?
+        return handHasAllSameSuit(handBeingChecked) && handHasAllConsecutiveValues(handBeingChecked);
     }
 
-    public void isFourOfAKind(ArrayList<Card> handBeingChecked) {
+    public boolean isFourOfAKind(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for Four of a Kind...");
+        return false;
     }
 
     //implement a worth lookup method

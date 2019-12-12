@@ -9,24 +9,26 @@ public class Card{
     }
 
     public enum Ranks {
-        TWO("Two", 0),
-        THREE("Three", 1),
-        FOUR("Four", 2),
-        FIVE("Five", 3),
-        SIX("Six", 4),
-        SEVEN("Seven", 5),
-        EIGHT("Eight", 6),
-        NINE("Nine", 7),
-        TEN("Ten", 8),
-        JACK("Jack", 9),
-        QUEEN("Queen", 10),
-        KING("King", 11),
-        ACE("Ace", 12);
+        TWO(2,"Two", 0),
+        THREE(3,"Three", 1),
+        FOUR(4,"Four", 2),
+        FIVE(5,"Five", 3),
+        SIX(6,"Six", 4),
+        SEVEN(7,"Seven", 5),
+        EIGHT(8,"Eight", 6),
+        NINE(9,"Nine", 7),
+        TEN(10,"Ten", 8),
+        JACK(11,"Jack", 9),
+        QUEEN(12,"Queen", 10),
+        KING(12,"King", 11),
+        ACE(14,"Ace", 12);
 
+        public final int rankAsInt;
         public final String rankName;
         public final int rankWorth;
 
-        private Ranks(String rankName, int rankWorth) {
+        private Ranks(int rankAsInt, String rankName, int rankWorth) {
+            this.rankAsInt = rankAsInt;
             this.rankName = rankName;
             this.rankWorth = rankWorth;
         }
@@ -43,6 +45,14 @@ public class Card{
 
     public Ranks getRank() {
         return this.rank;
+    }
+
+    public int getRankAsInt() {
+        return this.rank.rankAsInt;
+    }
+
+    public String getRankName() {
+        return this.rank.rankName;
     }
 
     public int getRankWorth() {

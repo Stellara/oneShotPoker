@@ -89,11 +89,18 @@ public class Game{
         // X deal hands to players
         // _ rank hands with an internal value or something similar?
         // _ compare players hands
+            // Naive inclination to handle this in HandRanker, but it's not HandRanker's job, that's something else's job
+            // TODO: implement a dealer class. That should probably be the dealer's job.
         // _ choose winner
-            // sort the players by handvalue, highest value is the winner, if same values, tie?
+            // This should also probably be the dealer's job...
+            // If my hand ranking and worth assigning logic is right...
+            // Is the worth of your hand higher than the worth of all other players' hands?
+            // Yes? You're the winner.
         // _ set winner
+            // This should also probably be the dealer's job...
             // Player.isWinner(true);
         // _ output outcome
+            // ...and this should ALSO be the dealer's job. The Game calls the Dealer's actions in the loop.
         // _ record stats *extra*
         // _ end game
         // _ play again or exit?
