@@ -188,7 +188,6 @@ public class HandRanker {
     public boolean handHasAllSameSuit(ArrayList<Card> handBeingChecked) {
         System.out.println("This is count of suits inside handHasAllSameSuit: " + countSuits(handBeingChecked));
         int suitsFrequencies = Collections.frequency(countSuits(handBeingChecked).values(), 5);
-        //this is true if any one of the keys has a value of 5
         return suitsFrequencies == 5;
     }
 
@@ -210,9 +209,10 @@ public class HandRanker {
         return ranksFrequencies == 1;
     }
 
-    public boolean handHasTwoPair() {
-        // this is true when
-        return false;
+    public boolean handHasTwoPair(ArrayList<Card> handBeingChecked) {
+        System.out.println("This is count of the ranks inside handHasTwoPair: " + countRanks(handBeingChecked));
+        int ranksFrequencies = Collections.frequency(countRanks(handBeingChecked).values(), 2);
+        return ranksFrequencies == 2;
     }
 
     public boolean handHasTrio() {
@@ -256,6 +256,11 @@ public class HandRanker {
         return false;
     }
 
+    public boolean isTwoPair(ArrayList<Card> handBeingChecked) {
+        System.out.println("Checking for Two Pair...");
+        return handHasTwoPair(handBeingChecked);
+    }
+
     public boolean isPair(ArrayList<Card> handBeingChecked) {
         System.out.println("Checking for a Pair...");
         return handHasPair(handBeingChecked);
@@ -283,6 +288,9 @@ public class HandRanker {
             System.out.println("The hand is a Flush!");
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isFourOfAKind(handBeingProcessed)) {
+            System.out.println("The hand is a Four of a Kind!");
+            // call lookupHandWorth and setCurrentHandWorth
+        } else if(isTwoPair(handBeingProcessed)) {
             System.out.println("The hand is a Four of a Kind!");
             // call lookupHandWorth and setCurrentHandWorth
         } else if(isPair(handBeingProcessed)) {
