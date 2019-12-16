@@ -1,16 +1,16 @@
 package oneShotPoker;
 
 public class Player {
-    private boolean isWinner;
+    public String playerName;
     private HandOfCards currentHandOfCards;
+    private boolean isWinner;
 
-
-    public void setWinner(boolean wonLastGame) {
-        this.isWinner = wonLastGame;
+    public void setPlayerName(int index) {
+        this.playerName = "Player" + Integer.toString(index + 1);
     }
 
-    public boolean isWinner() {
-        return this.isWinner;
+    public String getPlayerName() {
+        return this.playerName;
     }
 
     public HandOfCards getCurrentHandInformation(){
@@ -20,4 +20,13 @@ public class Player {
     public void setCurrentHandOfCards(HandOfCards newHand){
         this.currentHandOfCards = newHand;
     }
+
+    public void setWinner(boolean wonLastGame) {
+        this.isWinner = wonLastGame;
+    }
+
+    public boolean isWinner() {
+        return this.isWinner;
+    }
+
 }

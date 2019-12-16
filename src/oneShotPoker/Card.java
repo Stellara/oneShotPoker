@@ -61,4 +61,9 @@ public class Card{
     public Suits getSuit() {
         return this.suit;
     }
+
+    public void printCardInfo() {
+        System.out.println(getRank());
+        System.out.println(getSuit());
+    }
 }

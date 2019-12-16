@@ -77,7 +77,7 @@ public class HandRanker {
         _ Dealer: Hands which both contain 2 pairs are ranked by the value of their highest pair. Hands with the same highest pair are ranked by the  value of their other pair. If these values are the same the hands are ranked by the value of the remaining card.
 
     X Pair: 2 of the 5 cards in the hand have the same value.
-        _ Dealer: Hands which both contain a pair are ranked by the value of the cards forming the pair. If these         values   are the same, the hands are ranked by the values of the cards not forming the pair, in decreasing order.
+        _ Dealer: Hands which both contain a pair are ranked by the value of the cards forming the pair. If these values are the same, the hands are ranked by the values of the cards not forming the pair, in decreasing order.
 
     X High Card: Hands which do not fit any higher category are ranked by the value of their highest card.
        _ Dealer: If the highest cards have the same value, the hands are    ranked   by the next highest, and so on.
@@ -210,8 +210,6 @@ public class HandRanker {
 
     //**________________________RANK VALUES CHECKING ATOMIC METHODS________________________**
     private boolean handHasAllConsecutiveValues(ArrayList<Card> handBeingChecked) {
-        Collections.sort(handBeingChecked, byCardRank);
-
         for (int i = 1; i < handBeingChecked.size(); i++) {
             if (handBeingChecked.get(i).getRankAsInt() != handBeingChecked.get(i-1).getRankAsInt() + 1) {
                 return false;
@@ -240,9 +238,8 @@ public class HandRanker {
     }
 
     //TODO: Cleanup print statements
-    private ArrayList<Card> getHighCard(ArrayList<Card> handBeingChecked) {
+    public ArrayList<Card> getHighCard(ArrayList<Card> handBeingChecked) {
         ArrayList<Card> matchingCards = new ArrayList<>();
-        Collections.sort(handBeingChecked, byCardRank);
         System.out.println("This is the high card..." + handBeingChecked.get(4).getRank() + " " + handBeingChecked.get(4).getSuit());
         matchingCards.add(handBeingChecked.get(4));
         return matchingCards;
@@ -311,6 +308,8 @@ public class HandRanker {
     public void assignHandWorth(Player playerBeingRanked) {
         HandOfCards currentHandStatus = playerBeingRanked.getCurrentHandInformation();
         ArrayList<Card> handBeingProcessed = currentHandStatus.getCards();
+        Collections.sort(handBeingProcessed, byCardRank);
+
 
         // Inspect hand before it's ranked
         System.out.println("This is the hand being processed inside assignHandWorth: ");
@@ -377,10 +376,18 @@ public class HandRanker {
         } else if(isPair(handBeingProcessed)) {
             System.out.println("The hand is a Pair!");
             System.out.println("Setting the following rank name and hand worth: ");
+
             currentHandStatus.setCurrentHandRankName(handWorth.PAIR.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.PAIR.handWorth);
+            ArrayList<Card> cardsComprisingPair;
+            cardsComprisingPair = getCardsInMatchingSets(handBeingProcessed, 2);
 
-            currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 2));
+            currentHandStatus.setBestCards(cardsComprisingPair);
+            for(Card card : cardsComprisingPair){
+                handBeingProcessed.remove(card);
+            }
+            System.out.println("Let's see what's left in hand after a pair is detected...");
+            currentHandStatus.printCards();
             System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else {
             System.out.println("No special ranks. The player can only win on high card");

@@ -16,6 +16,7 @@ public class Game{
             for (int i = 0; i < numOfPlayers; i++) {
                 Player nextSeatingPlayer = new Player();
                 currentPlayers[i] = nextSeatingPlayer;
+                nextSeatingPlayer.setPlayerName(i);
             }
             return currentPlayers;
         }
@@ -32,19 +33,6 @@ public class Game{
 
             dealer.seatPlayers(currentPlayers);
             dealer.dealHands();
-
-            //TODO: helper debugging statements, remove
-            //TODO: better name than currentlyDealingPlayer
-            for (Player currentlyDealingPlayer : currentPlayers) {
-                System.out.println("The current player is " + currentlyDealingPlayer);
-                System.out.println("Validating current player's hand...");
-                System.out.println(currentlyDealingPlayer.getCurrentHandInformation());
-                for(Card currentCardInHand: currentlyDealingPlayer.getCurrentHandInformation().getCards()){
-                    System.out.print(currentCardInHand.getRank() + " ");
-                    System.out.println(currentCardInHand.getSuit() + " ");
-                }
-            }
-
             dealer.judgeWinner();
         }
 

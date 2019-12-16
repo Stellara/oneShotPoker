@@ -45,4 +45,10 @@ public class HandOfCards {
             System.out.println(card.getRank() + " " + card.getSuit());
         }
     }
+
+    public void printCards() {
+        for(Card card : this.cards) {
+            System.out.println(card.getRank() + " " + card.getSuit());
+        }
+    }
 }

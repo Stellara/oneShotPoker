@@ -1,7 +1,5 @@
 package oneShotPoker;
 
-import static oneShotPoker.Card.Suits.CLUBS;
-
 public class Dealer {
     private Deck gameDeck = new Deck();
     private HandRanker ranker = new HandRanker();
@@ -30,8 +28,9 @@ public class Dealer {
         gameDeck.setupNewDeck();
 
         for (Player currentlyDealingPlayer : currentPlayers) {
-            System.out.println("Drawing hand for " + currentlyDealingPlayer);
+            System.out.println("Drawing hand for " + currentlyDealingPlayer.getPlayerName());
             currentlyDealingPlayer.setCurrentHandOfCards(drawHand(5));
+            currentlyDealingPlayer.getCurrentHandInformation().printCards();
         }
     }
 
@@ -79,7 +78,7 @@ public class Dealer {
                 System.out.println("Both players have a high card!");
 
                 for(int i=0; i < sizeOfAHand; i++) {
-                    if (player1HandInfo.getBestCards().get(i).getRankWorth() > player2HandInfo.getBestCards().get(i).getRankWorth()) {
+                    if(player1HandInfo.getBestCards().get(i).getRankWorth() > player2HandInfo.getBestCards().get(i).getRankWorth()) {
                         player1.setWinner(true);
                         System.out.println("Player 1 is the winner!");
                         System.out.println("Player 1 wins with " + player1HandInfo.getBestCards().get(i).getRank() + " " + player1HandInfo.getBestCards().get(i).getSuit() + "!");
@@ -91,6 +90,33 @@ public class Dealer {
                         System.out.println("Player 2 wins with " + player2HandInfo.getBestCards().get(i).getRank() + " " + player2HandInfo.getBestCards().get(i).getSuit() + "!");
                         System.out.println("Player 1 loses with " + player1HandInfo.getBestCards().get(i).getRank() + " " + player1HandInfo.getBestCards().get(i).getSuit() + "!");
                         break;
+                    }
+                }
+            } else if(player1HandName == "Pair" && player2HandName == "Pair") {
+
+                Card player1HighCard = ranker.getHighCard(player1HandInfo.getCards()).get(0);
+                Card player2HighCard = ranker.getHighCard(player2HandInfo.getCards()).get(0);
+                System.out.println("Both players have a pair!");
+                if(player1HandInfo.getBestCards().get(0).getRankWorth() > player2HandInfo.getBestCards().get(0).getRankWorth()) {
+                    System.out.println("Player 1 is the winner!");
+                    System.out.println("Player 1 wins with a pair of " + player1HandInfo.getBestCards().get(0).getRank() + " " + player1HandInfo.getBestCards().get(0).getSuit() + "!");
+                    System.out.println("Player 2 loses with a pair of " + player2HandInfo.getBestCards().get(0).getRank() + " " + player2HandInfo.getBestCards().get(0).getSuit() + "!");
+                }  else if(player2HandInfo.getBestCards().get(0).getRankWorth() > player1HandInfo.getBestCards().get(0).getRankWorth()) {
+                    System.out.println("Player 2 is the winner!");
+                    System.out.println("Player 2 wins with a pair of " + player2HandInfo.getBestCards().get(0).getRank() + " " + player2HandInfo.getBestCards().get(0).getSuit() + "!");
+                    System.out.println("Player 1 loses with a pair of " + player1HandInfo.getBestCards().get(0).getRank() + " " + player1HandInfo.getBestCards().get(0).getSuit() + "!");
+                } else {
+                    System.out.println("Both players' pairs are ties...");
+                    if (player1HighCard.getRankWorth() > player2HighCard.getRankWorth()) {
+                        System.out.println("Player 1 wins with ");
+                        player1HighCard.printCardInfo();
+                        System.out.println("Player 2 loses with ");
+                        player2HighCard.printCardInfo();
+                    } else if (player2HighCard.getRankWorth() > player1HighCard.getRankWorth()) {
+                        System.out.println("Player 2 wins with ");
+                        player2HighCard.printCardInfo();
+                        System.out.println("Player 1 loses with ");
+                        player1HighCard.printCardInfo();
                     }
                 }
             }
