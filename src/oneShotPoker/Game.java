@@ -4,10 +4,7 @@ public class Game{
         //TODO: this will probably get bloated with methods real fast, pull out into fitting classes
         private int numOfPlayers;
         private Player[] currentPlayers;
-
-        //TODO: give better name than gameDeck
-        private Deck gameDeck = new Deck();
-        private HandRanker ranker = new HandRanker();
+        private Dealer dealer = new Dealer();
 
         public void setNumOfPlayers(int requestedNumOfPlayers){
             this.numOfPlayers = requestedNumOfPlayers;
@@ -23,35 +20,6 @@ public class Game{
             return currentPlayers;
         }
 
-        //TODO: refactor
-        private HandOfCards drawHand(int handSize) {
-            System.out.println("Drawing hand...");
-            HandOfCards hand = new HandOfCards();
-            Card drawnCard;
-
-            for(int i=0; i < handSize; i++) {
-                //TODO: cleaner way to implement this, like ruby pop?
-                drawnCard = gameDeck.giveDealerDeck().get(i);
-                gameDeck.giveDealerDeck().remove(i);
-                hand.setNewCard(drawnCard);
-            }
-            return hand;
-        }
-
-        private void dealHands() {
-            for (Player currentlyDealingPlayer : currentPlayers) {
-                System.out.println("Drawing hand for " + currentlyDealingPlayer);
-                currentlyDealingPlayer.setCurrentHandOfCards(drawHand(5));
-            }
-        }
-
-        private void rankHands() {
-            for (Player currentlyRankingPlayer: currentPlayers) {
-                System.out.println("Ranking hand for " + currentlyRankingPlayer);
-                ranker.assignHandWorth(currentlyRankingPlayer);
-            }
-        }
-
         public void runGame(){
             //TODO: Pull all text strings out into other methods and constants? eg: greetPlayers, etc
             System.out.println("Running a brand new game...");
@@ -62,11 +30,8 @@ public class Game{
             //TODO: refactor this call to take input from the GameRunner
             currentPlayers = getPlayers(2);
 
-            //TODO: smell? Wrap these in private methods?
-            gameDeck.setupNewDeck();
-//            gameDeck.validateDeck();
-
-            dealHands();
+            dealer.seatPlayers(currentPlayers);
+            dealer.dealHands();
 
             //TODO: helper debugging statements, remove
             //TODO: better name than currentlyDealingPlayer
@@ -80,7 +45,7 @@ public class Game{
                 }
             }
 
-            rankHands();
+            dealer.rankHands();
         }
 
         // TODO: implement MAIN GAME LOOP
