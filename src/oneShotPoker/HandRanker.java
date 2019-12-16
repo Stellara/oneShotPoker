@@ -102,7 +102,6 @@ public class HandRanker {
 
     //TODO: refactor
     private Map countSuits(ArrayList<Card> handOfCards) {
-        System.out.println("Inside countSuits...");
         Map<Card.Suits, Integer> suitsCounter = createSuitsCounter();
 
        for(int i=0; i<handOfCards.size(); i++){
@@ -205,7 +204,6 @@ public class HandRanker {
 
     //**___________________________SUIT CHECKING ATOMIC METHODS___________________________**
     private boolean handHasAllSameSuit(ArrayList<Card> handBeingChecked) {
-//        System.out.println("This is count of suits inside handHasAllSameSuit: " + countSuits(handBeingChecked));
         int suitsFrequencies = Collections.frequency(countSuits(handBeingChecked).values(), 5);
         return suitsFrequencies == 5;
     }
@@ -223,24 +221,20 @@ public class HandRanker {
     }
 
     private boolean handHasFourSameValues(ArrayList<Card> handBeingChecked) {
-//        System.out.println("This is count of the ranks inside handHasFourSameValues: " + countRanks(handBeingChecked));
         int ranksFrequencies = Collections.frequency(countRanks(handBeingChecked).values(), 4);
         return ranksFrequencies == 1;
     }
     private boolean handHasThreeSameValues(ArrayList<Card> handBeingChecked) {
-//        System.out.println("This is count of the ranks inside handHasFourSameValues: " + countRanks(handBeingChecked));
         int ranksFrequencies = Collections.frequency(countRanks(handBeingChecked).values(), 3);
         return ranksFrequencies == 1;
     }
 
     private boolean handHasPair(ArrayList<Card> handBeingChecked) {
-//        System.out.println("This is count of the ranks inside handHasPair: " + countRanks(handBeingChecked));
         int ranksFrequencies = Collections.frequency(countRanks(handBeingChecked).values(), 2);
         return ranksFrequencies == 1;
     }
 
     private boolean handHasTwoPair(ArrayList<Card> handBeingChecked) {
-//        System.out.println("This is count of the ranks inside handHasTwoPair: " + countRanks(handBeingChecked));
         int ranksFrequencies = Collections.frequency(countRanks(handBeingChecked).values(), 2);
         return ranksFrequencies == 2;
     }
@@ -257,37 +251,30 @@ public class HandRanker {
     //**________________________COMPOSED HAND TYPE METHODS________________________**
 
     private boolean isStraightFlush(ArrayList<Card> handBeingChecked) {
-        System.out.println("Checking for Straight Flush...");
         return handHasAllSameSuit(handBeingChecked) && handHasAllConsecutiveValues(handBeingChecked);
     }
 
     private boolean isFourOfAKind(ArrayList<Card> handBeingChecked) {
-        System.out.println("Checking for Four of a Kind...");
         return handHasFourSameValues(handBeingChecked);
     }
 
     private boolean isFullHouse(ArrayList<Card> handBeingChecked) {
-        System.out.println("Checking for FullHouse...");
         return handHasFourSameValues(handBeingChecked) && handHasPair(handBeingChecked);
     }
 
     private boolean isFlush(ArrayList<Card> handBeingChecked) {
-        System.out.println("Checking for Flush...");
         return handHasAllSameSuit(handBeingChecked);
     }
 
     private boolean isStraight(ArrayList<Card> handBeingChecked) {
-        System.out.println("Checking for Straight...");
         return handHasAllConsecutiveValues(handBeingChecked);
     }
 
     private boolean isThreeOfAKind(ArrayList<Card> handBeingChecked) {
-        System.out.println("Checking for Three of a Kind...");
         return handHasThreeSameValues(handBeingChecked);
     }
 
     private boolean isTwoPair(ArrayList<Card> handBeingChecked) {
-        System.out.println("Checking for Two Pair...");
         return handHasTwoPair(handBeingChecked);
     }
     private boolean isPair(ArrayList<Card> handBeingChecked) {
@@ -381,7 +368,7 @@ public class HandRanker {
             currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 3));
             System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isTwoPair(handBeingProcessed)) {
-            System.out.println("The hand is a Four of a Kind!");
+            System.out.println("The hand is a Two Pair!");
             currentHandStatus.setCurrentHandRankName(handWorth.TWO_PAIR.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.TWO_PAIR.handWorth);
 

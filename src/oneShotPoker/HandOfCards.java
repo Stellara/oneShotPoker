@@ -39,4 +39,10 @@ public class HandOfCards {
     public void setBestCards(ArrayList<Card> subHandOfBestCards) {
         this.bestCards = subHandOfBestCards;
     }
+
+    public void printBestCards() {
+        for(Card card : this.bestCards) {
+            System.out.println(card.getRank() + " " + card.getSuit());
+        }
+    }
 }

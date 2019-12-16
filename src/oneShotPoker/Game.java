@@ -45,7 +45,7 @@ public class Game{
                 }
             }
 
-            dealer.rankHands();
+            dealer.judgeWinner();
         }
 
         // TODO: implement MAIN GAME LOOP
