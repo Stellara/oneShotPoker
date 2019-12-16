@@ -56,26 +56,31 @@ public class HandRanker {
 
     /*   **________________________________________________RANKING RULES________________________________________________**
     X Straight flush: 5 cards of the same suit && consecutive values.
-        Dealer Class job -> Ranked by the highest card in the hand.
+        _ Dealer: Ranked by the highest card in the hand.
 
-    X Four of a kind: 4 cards with the same value. Ranked by the value of the 4 cards.
+    X Four of a kind: 4 cards with the same value.
+        _ Dealer: Ranked by the value of the 4 cards.
 
-    X Full House: 3 cards of the same value, with the remaining 2 cards forming a pair. Ranked by the value of the 3 cards.
+    X Full House: 3 cards of the same value, with the remaining 2 cards forming a pair.
+        _ Dealer: Ranked by the value of the 3 cards.
 
     X Flush: Hand contains 5 cards of the same suit.
-        Dealer Class job ->  Hands which are both flushes are ranked using the rules for High Card.
+        _ Dealer: Hands which are both flushes are ranked using the rules for High Card.
 
     X Straight: Hand contains 5 cards with consecutive values.
-        Dealer Class job ->Hands which both contain a straight are ranked by their highest card.
+        _ Dealer: Hands which both contain a straight are ranked by their highest card.
 
-    X Three of a Kind: Three of the cards in the hand have the same value. Hands which both contain three of a kind are ranked by the value of the 3 cards.
+    X Three of a Kind: Three of the cards in the hand have the same value.
+        _ Dealer: Hands which both contain three of a kind are ranked by the value of the 3 cards.
 
-    X Two Pairs: The hand contains 2 different pairs. Hands which both contain 2 pairs are ranked by the value of their highest pair. Hands with the same highest pair are ranked by the  value of their other pair. If these values are the same the hands are ranked by the value of the remaining card.
+    X Two Pairs: The hand contains 2 different pairs.
+        _ Dealer: Hands which both contain 2 pairs are ranked by the value of their highest pair. Hands with the same highest pair are ranked by the  value of their other pair. If these values are the same the hands are ranked by the value of the remaining card.
 
-    X Pair: 2 of the 5 cards in the hand have the same value. Hands which both contain a pair are ranked by the value of the cards forming the pair. If these         values   are the same, the hands are ranked by the values of the cards not forming the pair, in decreasing order.
+    X Pair: 2 of the 5 cards in the hand have the same value.
+        _ Dealer: Hands which both contain a pair are ranked by the value of the cards forming the pair. If these         values   are the same, the hands are ranked by the values of the cards not forming the pair, in decreasing order.
 
     X High Card: Hands which do not fit any higher category are ranked by the value of their highest card.
-       Dealer class job -> If the highest cards have the same value, the hands are    ranked   by the next highest, and so on.
+       _ Dealer: If the highest cards have the same value, the hands are    ranked   by the next highest, and so on.
      */
     // **________________________________________________END RANKING RULES________________________________________________**
 
@@ -241,19 +246,12 @@ public class HandRanker {
     }
 
     //TODO: Cleanup print statements
-    public Card getHighCard(ArrayList<Card> handBeingChecked) {
-//        System.out.println("Getting high card value for " + handBeingChecked + "...");
+    public ArrayList<Card> getHighCard(ArrayList<Card> handBeingChecked) {
+        ArrayList<Card> matchingCards = new ArrayList<>();
         Collections.sort(handBeingChecked, byCardRank);
-
-//        System.out.println("This is the sorted hand being checked: ");
-//        for(int i=0; i < handBeingChecked.size(); i++){
-//            System.out.print(handBeingChecked.get(i).getRank());
-//            System.out.print(handBeingChecked.get(i).getSuit());
-//            System.out.print(" ");
-//        }
-
         System.out.println("This is the high card..." + handBeingChecked.get(4).getRank() + " " + handBeingChecked.get(4).getSuit());
-        return handBeingChecked.get(4);
+        matchingCards.add(handBeingChecked.get(4));
+        return matchingCards;
     }
 
     //**________________________COMPOSED HAND TYPE METHODS________________________**
@@ -298,9 +296,31 @@ public class HandRanker {
     }
 
     //**________________________ASSIGN HAND WORTH METHOD________________________**
-    //implement a worth lookup method
-    // remake hand worth map, put here
-    // public int lookupHandWorth(handBeingProcessed);
+    private static <K, V> K getKeysByValue(Map<K, V> map, V value) {
+        return map.keySet()
+                .stream()
+                .filter(key -> value.equals(map.get(key)))
+                .findFirst().get();
+    }
+
+    private ArrayList<Card> getCardsInMatchingSets(ArrayList<Card> handBeingProcessed, int rank) {
+        ArrayList<Card> matchingCards = new ArrayList<>();
+
+        Object rankOfMatchingMultiples = getKeysByValue(countRanks(handBeingProcessed), rank);
+        System.out.println("These are the ranks in a pair: " + rankOfMatchingMultiples);
+        for(Card card: handBeingProcessed) {
+            if(card.getRank() == rankOfMatchingMultiples){
+                matchingCards.add(card);
+            }
+        }
+        System.out.println("These are the cards in the pair: ");
+        for(Card card: matchingCards) {
+            System.out.println(card.getRank() + " " + card.getSuit());
+        }
+
+        return matchingCards;
+    }
+
     public void assignHandWorth(Player playerBeingRanked) {
         HandOfCards currentHandStatus = playerBeingRanked.getCurrentHandInformation();
         ArrayList<Card> handBeingProcessed = currentHandStatus.getCards();
@@ -321,48 +341,68 @@ public class HandRanker {
             System.out.println("The hand is a Straight Flush!");
             currentHandStatus.setCurrentHandRankName(handWorth.STRAIGHT_FLUSH.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.STRAIGHT_FLUSH.handWorth);
-            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth());
+
+            currentHandStatus.setBestCards(getHighCard(handBeingProcessed));
+            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isFourOfAKind(handBeingProcessed)) {
             System.out.println("The hand is a Four of a Kind!");
             currentHandStatus.setCurrentHandRankName(handWorth.FOUR_OF_A_KIND.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.FOUR_OF_A_KIND.handWorth);
-            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth());
+
+            currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 4));
+            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isFullHouse(handBeingProcessed)) {
             System.out.println("The hand is a Full House!");
             currentHandStatus.setCurrentHandRankName(handWorth.FULL_HOUSE.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.FULL_HOUSE.handWorth);
-            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth());
+
+            currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 3));
+            currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 2));
+            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isFlush(handBeingProcessed)) {
             System.out.println("The hand is a Flush!");
             currentHandStatus.setCurrentHandRankName(handWorth.FLUSH.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.FLUSH.handWorth);
-            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth());
+
+            currentHandStatus.setBestCards(getHighCard(handBeingProcessed));
+            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isStraight(handBeingProcessed)) {
             System.out.println("The hand is a Straight!");
             currentHandStatus.setCurrentHandRankName(handWorth.STRAIGHT.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.STRAIGHT.handWorth);
-            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth());
+
+            currentHandStatus.setBestCards(getHighCard(handBeingProcessed));
+            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isThreeOfAKind(handBeingProcessed)) {
             System.out.println("The hand is a Three of a Kind!");
             currentHandStatus.setCurrentHandRankName(handWorth.THREE_OF_A_KIND.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.THREE_OF_A_KIND.handWorth);
-            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName() + " " + currentHandStatus.getCurrentHandWorth());
+
+            currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 3));
+            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isTwoPair(handBeingProcessed)) {
             System.out.println("The hand is a Four of a Kind!");
             currentHandStatus.setCurrentHandRankName(handWorth.TWO_PAIR.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.TWO_PAIR.handWorth);
-            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName()+ " " + currentHandStatus.getCurrentHandWorth());
+
+            currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 2));
+            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isPair(handBeingProcessed)) {
             System.out.println("The hand is a Pair!");
+            System.out.println("Setting the following rank name and hand worth: ");
             currentHandStatus.setCurrentHandRankName(handWorth.PAIR.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.PAIR.handWorth);
-            System.out.println("Hand Rank info: " + currentHandStatus.getCurrentHandRankName() + " " + currentHandStatus.getCurrentHandWorth());
+
+            currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 2));
+            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else {
             System.out.println("No special ranks. The player can only win on high card");
-            getHighCard(handBeingProcessed); // what do I set this to for the dealer?
+            getHighCard(handBeingProcessed);
             currentHandStatus.setCurrentHandRankName(handWorth.HIGH_CARD.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.HIGH_CARD.handWorth);
-            System.out.println("Hand Rank info: " +  currentHandStatus.getCurrentHandRankName() + " " + currentHandStatus.getCurrentHandWorth());
+
+            currentHandStatus.setBestCards(getHighCard(handBeingProcessed));
+            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         }
     }
 

@@ -27,12 +27,11 @@ public class Card{
         public final String rankName;
         public final int rankWorth;
 
-        private Ranks(int rankAsInt, String rankName, int rankWorth) {
+        Ranks(int rankAsInt, String rankName, int rankWorth) {
             this.rankAsInt = rankAsInt;
             this.rankName = rankName;
             this.rankWorth = rankWorth;
         }
-
     }
 
     private Suits suit;
