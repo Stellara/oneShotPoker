@@ -87,7 +87,7 @@ public class Game{
         // X set num of players
         // X get deck
         // X deal hands to players
-        // _ rank hands with an internal value or something similar?
+        // X rank hands with an internal value or something similar?
         // _ compare players hands
             // Naive inclination to handle this in HandRanker, but it's not HandRanker's job, that's something else's job
             // TODO: implement a dealer class. That should probably be the dealer's job.
