@@ -135,66 +135,50 @@ public class HandRanker {
 
     //TODO: refactor
     private Map countRanks(ArrayList<Card> handOfCards) {
-//        System.out.println("Inside countRanks...");
         Map<Card.Ranks, Integer> ranksCounter = createRanksCounter();
 
         for(int i=0; i<handOfCards.size(); i++){
             Card.Ranks currentCardRank = handOfCards.get(i).getRank();
 
-//            System.out.println("Checking this rank for each player in countRanks " + currentCardRank);
-
             switch(currentCardRank) {
 
                 case TWO:
-//                    System.out.println("We got us a two!");
                     ranksCounter.put(TWO, ranksCounter.get(TWO) + 1);
                     break;
                 case THREE:
-//                    System.out.println("We got us a three!");
                     ranksCounter.put(THREE, ranksCounter.get(THREE) + 1);
                     break;
                 case FOUR:
-//                    System.out.println("We got us a four!");
                     ranksCounter.put(FOUR, ranksCounter.get(FOUR) + 1);
                     break;
                 case FIVE:
-//                    System.out.println("We got us a five!");
                     ranksCounter.put(FIVE, ranksCounter.get(FIVE) + 1);
                     break;
                 case SIX:
-//                    System.out.println("We got us a six!");
                     ranksCounter.put(SIX, ranksCounter.get(SIX) + 1);
                     break;
                 case SEVEN:
-//                    System.out.println("We got us a seven!");
                     ranksCounter.put(SEVEN, ranksCounter.get(SEVEN) + 1);
                     break;
                 case EIGHT:
-//                    System.out.println("We got us a eight!");
                     ranksCounter.put(EIGHT, ranksCounter.get(EIGHT) + 1);
                     break;
                 case NINE:
-//                    System.out.println("We got us a nine!");
                     ranksCounter.put(NINE, ranksCounter.get(NINE) + 1);
                     break;
                 case TEN:
-//                    System.out.println("We got us a ten!");
                     ranksCounter.put(TEN, ranksCounter.get(TEN) + 1);
                     break;
                 case JACK:
-//                    System.out.println("We got us a jack!");
                     ranksCounter.put(JACK, ranksCounter.get(JACK) + 1);
                     break;
                 case QUEEN:
-//                    System.out.println("We got us a queen!");
                     ranksCounter.put(QUEEN, ranksCounter.get(QUEEN) + 1);
                     break;
                 case KING:
-//                    System.out.println("We got us a king!");
                     ranksCounter.put(KING, ranksCounter.get(KING) + 1);
                     break;
                 case ACE:
-//                    System.out.println("We got us a ace");
                     ranksCounter.put(ACE, ranksCounter.get(ACE) + 1);
                     break;
             }
@@ -237,11 +221,9 @@ public class HandRanker {
         return ranksFrequencies == 2;
     }
 
-    //TODO: Cleanup print statements
     public ArrayList<Card> getHighCard(ArrayList<Card> handBeingChecked) {
         ArrayList<Card> matchingCards = new ArrayList<>();
         int highestCard = handBeingChecked.size()-1;
-        System.out.println("This is the high card..." + handBeingChecked.get(highestCard).getRank() + " " + handBeingChecked.get(highestCard).getSuit());
         matchingCards.add(handBeingChecked.get(highestCard));
         return matchingCards;
     }
@@ -276,7 +258,6 @@ public class HandRanker {
         return handHasTwoPair(handBeingChecked);
     }
     private boolean isPair(ArrayList<Card> handBeingChecked) {
-        System.out.println("Checking for a Pair...");
         return handHasPair(handBeingChecked);
     }
 
@@ -292,17 +273,11 @@ public class HandRanker {
         ArrayList<Card> matchingCards = new ArrayList<>();
 
         Object rankOfMatchingMultiples = getKeysByValue(countRanks(handBeingProcessed), rank);
-        System.out.println("These are the ranks in a pair: " + rankOfMatchingMultiples);
         for(Card card: handBeingProcessed) {
             if(card.getRank() == rankOfMatchingMultiples){
                 matchingCards.add(card);
             }
         }
-        System.out.println("These are the cards in the pair: ");
-        for(Card card: matchingCards) {
-            System.out.println(card.getRank() + " " + card.getSuit());
-        }
-
         return matchingCards;
     }
 
@@ -344,7 +319,7 @@ public class HandRanker {
             currentHandStatus.setCurrentHandWorth(handWorth.FULL_HOUSE.handWorth);
 
             currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 3));
-            currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 2));
+            currentHandStatus.printBestCards();
             System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isFlush(handBeingProcessed)) {
             System.out.println("The hand is a Flush!");
@@ -372,7 +347,8 @@ public class HandRanker {
             currentHandStatus.setCurrentHandRankName(handWorth.TWO_PAIR.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.TWO_PAIR.handWorth);
 
-            currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 2));
+            ArrayList twoPairCards = new ArrayList(handBeingProcessed.subList(1, 5));
+            currentHandStatus.setBestCards(twoPairCards);
             System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isPair(handBeingProcessed)) {
             System.out.println("The hand is a Pair!");
