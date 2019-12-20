@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Deck {
-    //TODO: clean up
     private ArrayList<Card> cards = new ArrayList<>();
 
     public ArrayList<Card> giveDealerDeck() {
@@ -23,18 +22,6 @@ public class Deck {
     private void shuffleDeck() {
         Collections.shuffle(this.cards);
     }
-
-    //Helper method.
-    //TODO: remove
-//    public void validateDeck() {
-//        System.out.println("Validating cards in deck...");
-//        System.out.println("Deck size: " + cards.size());
-//        for(int i=0; i < cards.size(); i++){
-//            System.out.println("Rank: " + cards.get(i).getRank());
-//            System.out.println("Suit: " + cards.get(i).getSuit());
-//        }
-//        //add in set functionality so we know each card is unique
-//    }
 
     public void setupNewDeck() {
         buildNewDeck();

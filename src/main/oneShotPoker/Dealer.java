@@ -4,25 +4,27 @@ public class Dealer {
     private Deck gameDeck = new Deck();
     private HandRanker ranker = new HandRanker();
     private Player[] currentPlayers;
-    //TODO: access modifiers
-    Player player1;
-    Player player2;
-    HandOfCards player1HandInfo;
-    HandOfCards player2HandInfo;
-    int sizeOfAHand = 5;
+    private Player player1;
+    private Player player2;
+    private HandOfCards player1HandInfo;
+    private HandOfCards player2HandInfo;
+    private int sizeOfAHand = 5;
+
+    public static void greetPlayer() {
+        System.out.println("Welcome to One Shot Poker, the quick single hand poker game!");
+        System.out.println("In this pared down version of poker, two players will be dealt a hand of five cards.");
+        System.out.println("The dealer (that's me!) will rank your hands and the player with the better hand of cards wins!");
+    }
 
     public void seatPlayers(Player[] players) {
         this.currentPlayers = players;
     }
 
-    //TODO: refactor
     private HandOfCards drawHand(int handSize) {
-        System.out.println("Drawing hand...");
         HandOfCards hand = new HandOfCards();
         Card drawnCard;
 
         for(int i=0; i < handSize; i++) {
-            //TODO: cleaner way to implement this, like ruby pop?
             drawnCard = gameDeck.giveDealerDeck().get(i);
             gameDeck.giveDealerDeck().remove(i);
             hand.setNewCard(drawnCard);
@@ -34,7 +36,7 @@ public class Dealer {
         gameDeck.setupNewDeck();
 
         for (Player currentlyDealingPlayer : currentPlayers) {
-            System.out.println("Drawing hand for " + currentlyDealingPlayer.getPlayerName());
+            System.out.println("Drawing hand for " + currentlyDealingPlayer.getPlayerName() + "...");
             currentlyDealingPlayer.setCurrentHandOfCards(drawHand(5));
             currentlyDealingPlayer.getCurrentHandInformation().printCards();
         }
@@ -42,12 +44,10 @@ public class Dealer {
 
     public void rankHands() {
         for (Player currentlyRankingPlayer: currentPlayers) {
-            System.out.println("Ranking hand for " + currentlyRankingPlayer);
             ranker.assignHandWorth(currentlyRankingPlayer);
         }
     }
 
-    //TODO: clean up
     private void compareHighCards(int positionOfCardToCheck) {
         if(player1HandInfo.getBestCards().get(positionOfCardToCheck).getRankWorth() > player2HandInfo.getBestCards().get(positionOfCardToCheck).getRankWorth()) {
             player1.setWinner(true);
@@ -64,12 +64,11 @@ public class Dealer {
         }
     }
 
-    //TODO: clean up
     private void compareMatchedMultiples(String handName) {
-        Player player1 = currentPlayers[0];
-        Player player2 = currentPlayers[1];
-        HandOfCards player1HandInfo = player1.getCurrentHandInformation();
-        HandOfCards player2HandInfo = player2.getCurrentHandInformation();
+        player1 = currentPlayers[0];
+        player2 = currentPlayers[1];
+        player1HandInfo = player1.getCurrentHandInformation();
+        player2HandInfo = player2.getCurrentHandInformation();
         Card player1HighCard = ranker.getHighCard(player1HandInfo.getCards()).get(0);
         Card player2HighCard = ranker.getHighCard(player2HandInfo.getCards()).get(0);
         System.out.println("Both players have a " + handName + "!");
@@ -102,7 +101,6 @@ public class Dealer {
     }
 
     private void compareHands(){
-        System.out.println("Comparing hands...");
         Player player1 = currentPlayers[0];
         Player player2 = currentPlayers[1];
         HandOfCards player1HandInfo = player1.getCurrentHandInformation();
@@ -111,9 +109,6 @@ public class Dealer {
         int player2HandWorth = player2HandInfo.getCurrentHandWorth();
         String player1HandName = player1HandInfo.getCurrentHandRankName();
         String player2HandName = player2HandInfo.getCurrentHandRankName();
-
-        System.out.println("Player 1 internal hand score: " + player1HandWorth);
-        System.out.println("Player 2 internal hand score: " + player2HandWorth);
 
         if(player1HandWorth > player2HandWorth) {
             player1.setWinner(true);
@@ -130,7 +125,7 @@ public class Dealer {
             System.out.println("Player 1 loses with " + player1HandName + "!");
             player1HandInfo.printBestCards();
         } else {
-            System.out.println("It's a tie! Going into edge cases...");
+            System.out.println("It's a tie! Let's look at the tie breakers...");
             if(player1HandName == "High Card" && player2HandName == "High Card"){
                 System.out.println("Both players have a high card!");
                 for(int i=(sizeOfAHand-1); i > 0; i--) {
@@ -186,7 +181,7 @@ public class Dealer {
 
    public void judgeWinner() {
         rankHands();
-       System.out.println("Judging winner of the game...");
-       compareHands();
+        System.out.println("Judging winner of the game...");
+        compareHands();
    }
 }

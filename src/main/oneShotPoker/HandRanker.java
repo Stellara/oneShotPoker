@@ -87,24 +87,18 @@ public class HandRanker {
        for(int i=0; i<handOfCards.size(); i++){
            Card.Suits currentCardSuit = handOfCards.get(i).getSuit();
 
-//           System.out.println("Checking this suit for each player in countSuits " + currentCardSuit);
-
            switch(currentCardSuit) {
 
                case CLUBS:
-//                   System.out.println("We got us a club");
                    suitsCounter.put(CLUBS, suitsCounter.get(CLUBS) + 1);
                    break;
                case DIAMONDS:
-//                   System.out.println("We got us a diamond");
                    suitsCounter.put(DIAMONDS, suitsCounter.get(DIAMONDS) + 1);
                    break;
                case HEARTS:
-//                   System.out.println("We got us a heart");
                    suitsCounter.put(HEARTS, suitsCounter.get(HEARTS) + 1);
                    break;
                case SPADES:
-//                   System.out.println("We got us a spade");
                    suitsCounter.put(SPADES, suitsCounter.get(SPADES) + 1);
                    break;
 
@@ -266,95 +260,51 @@ public class HandRanker {
         ArrayList<Card> handBeingProcessed = currentHandStatus.getCards();
         Collections.sort(handBeingProcessed, byCardRank);
 
-
-        // Inspect hand before it's ranked
-        System.out.println("This is the hand being processed inside assignHandWorth: ");
-        System.out.println(handBeingProcessed);
-        for(int i=0; i<handBeingProcessed.size(); i++){
-            System.out.print(handBeingProcessed.get(i).getRank());
-            System.out.print(" ");
-            System.out.print(handBeingProcessed.get(i).getSuit());
-            System.out.print("  ");
-        }
-
-        //TODO: What better way to implement this?
-        //TODO: Lots of repetition. Can I DRY it up?
         if(isStraightFlush(handBeingProcessed)) {
-            System.out.println("The hand is a Straight Flush!");
             currentHandStatus.setCurrentHandRankName(handWorth.STRAIGHT_FLUSH.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.STRAIGHT_FLUSH.handWorth);
-
             currentHandStatus.setBestCards(getHighCard(handBeingProcessed));
-            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isFourOfAKind(handBeingProcessed)) {
-            System.out.println("The hand is a Four of a Kind!");
             currentHandStatus.setCurrentHandRankName(handWorth.FOUR_OF_A_KIND.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.FOUR_OF_A_KIND.handWorth);
-
             currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 4));
-            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isFullHouse(handBeingProcessed)) {
-            System.out.println("The hand is a Full House!");
             currentHandStatus.setCurrentHandRankName(handWorth.FULL_HOUSE.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.FULL_HOUSE.handWorth);
-
             currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 3));
             currentHandStatus.printBestCards();
-            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isFlush(handBeingProcessed)) {
-            System.out.println("The hand is a Flush!");
             currentHandStatus.setCurrentHandRankName(handWorth.FLUSH.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.FLUSH.handWorth);
-
             currentHandStatus.setBestCards(getHighCard(handBeingProcessed));
-            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isStraight(handBeingProcessed)) {
-            System.out.println("The hand is a Straight!");
             currentHandStatus.setCurrentHandRankName(handWorth.STRAIGHT.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.STRAIGHT.handWorth);
-
             currentHandStatus.setBestCards(getHighCard(handBeingProcessed));
-            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isThreeOfAKind(handBeingProcessed)) {
-            System.out.println("The hand is a Three of a Kind!");
             currentHandStatus.setCurrentHandRankName(handWorth.THREE_OF_A_KIND.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.THREE_OF_A_KIND.handWorth);
-
             currentHandStatus.setBestCards(getCardsInMatchingSets(handBeingProcessed, 3));
-            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isTwoPair(handBeingProcessed)) {
-            System.out.println("The hand is a Two Pair!");
             currentHandStatus.setCurrentHandRankName(handWorth.TWO_PAIR.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.TWO_PAIR.handWorth);
-
             ArrayList twoPairCards = new ArrayList(handBeingProcessed.subList(1, 5));
             currentHandStatus.setBestCards(twoPairCards);
-            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else if(isPair(handBeingProcessed)) {
-            System.out.println("The hand is a Pair!");
-            System.out.println("Setting the following rank name and hand worth: ");
-
             currentHandStatus.setCurrentHandRankName(handWorth.PAIR.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.PAIR.handWorth);
             ArrayList<Card> cardsComprisingPair;
             cardsComprisingPair = getCardsInMatchingSets(handBeingProcessed, 2);
-
             currentHandStatus.setBestCards(cardsComprisingPair);
+
             for(Card card : cardsComprisingPair){
                 handBeingProcessed.remove(card);
             }
-            System.out.println("Let's see what's left in hand after a pair is detected...");
-            currentHandStatus.printCards();
-            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         } else {
-            System.out.println("No special ranks. The player can only win on high card");
             getHighCard(handBeingProcessed);
             currentHandStatus.setCurrentHandRankName(handWorth.HIGH_CARD.handName);
             currentHandStatus.setCurrentHandWorth(handWorth.HIGH_CARD.handWorth);
-
             currentHandStatus.setBestCards(getHighCard(handBeingProcessed));
-            System.out.println(currentHandStatus.getCurrentHandRankName()  + " " + currentHandStatus.getCurrentHandWorth() +  " " + currentHandStatus.getBestCards());
         }
     }
-
 }
