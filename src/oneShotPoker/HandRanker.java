@@ -240,8 +240,9 @@ public class HandRanker {
     //TODO: Cleanup print statements
     public ArrayList<Card> getHighCard(ArrayList<Card> handBeingChecked) {
         ArrayList<Card> matchingCards = new ArrayList<>();
-        System.out.println("This is the high card..." + handBeingChecked.get(4).getRank() + " " + handBeingChecked.get(4).getSuit());
-        matchingCards.add(handBeingChecked.get(4));
+        int highestCard = handBeingChecked.size()-1;
+        System.out.println("This is the high card..." + handBeingChecked.get(highestCard).getRank() + " " + handBeingChecked.get(highestCard).getSuit());
+        matchingCards.add(handBeingChecked.get(highestCard));
         return matchingCards;
     }
 
