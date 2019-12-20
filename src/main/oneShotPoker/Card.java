@@ -1,4 +1,4 @@
-package oneShotPoker;
+package main.oneShotPoker;
 
 public class Card{
     public enum Suits {

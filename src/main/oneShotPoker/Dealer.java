@@ -1,4 +1,4 @@
-package oneShotPoker;
+package main.oneShotPoker;
 
 public class Dealer {
     private Deck gameDeck = new Deck();
@@ -189,9 +189,4 @@ public class Dealer {
        System.out.println("Judging winner of the game...");
        compareHands();
    }
-
-    //declare winner
-        //rankHands
-        //compare hands
-        //set winner
 }

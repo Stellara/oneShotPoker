@@ -1,4 +1,4 @@
-package oneShotPoker;
+package main.oneShotPoker;
 
 public class Game{
         //TODO: this will probably get bloated with methods real fast, pull out into fitting classes

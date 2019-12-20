@@ -1,29 +1,9 @@
-package oneShotPoker;
+package main.oneShotPoker;
 
 import java.util.*;
 
-//TODO: Do I need these explicit imports? More DRY way to access?
-import static oneShotPoker.Card.Suits.CLUBS;
-import static oneShotPoker.Card.Suits.DIAMONDS;
-import static oneShotPoker.Card.Suits.HEARTS;
-import static oneShotPoker.Card.Suits.SPADES;
-
-//TODO: I hate this! How else can I get these?
-import static oneShotPoker.Card.Ranks.TWO;
-import static oneShotPoker.Card.Ranks.THREE;
-import static oneShotPoker.Card.Ranks.FOUR;
-import static oneShotPoker.Card.Ranks.FIVE;
-import static oneShotPoker.Card.Ranks.SIX;
-import static oneShotPoker.Card.Ranks.SEVEN;
-import static oneShotPoker.Card.Ranks.EIGHT;
-import static oneShotPoker.Card.Ranks.NINE;
-import static oneShotPoker.Card.Ranks.TEN;
-import static oneShotPoker.Card.Ranks.JACK;
-import static oneShotPoker.Card.Ranks.QUEEN;
-import static oneShotPoker.Card.Ranks.KING;
-import static oneShotPoker.Card.Ranks.ACE;
-
-
+import static main.oneShotPoker.Card.Ranks.*;
+import static main.oneShotPoker.Card.Suits.*;
 
 public class HandRanker {
     Comparator<Card> byCardRank = Comparator

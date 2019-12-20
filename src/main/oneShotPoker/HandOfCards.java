@@ -1,4 +1,4 @@
-package oneShotPoker;
+package main.oneShotPoker;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package oneShotPoker;
+package main.oneShotPoker;
 
 public class Player {
     public String playerName;
