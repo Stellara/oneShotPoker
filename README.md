@@ -1,6 +1,8 @@
 # oneShotPoker
 An implementation of the [Coding Dojo simplified poker hands kata](http://codingdojo.org/kata/PokerHands/), to learn and practice Java.
 
+A standard 52 card deck is constructed, two hands of cards are randomly drawn and dealt to two players, and the hands are compared via standard poker ranking rules to determine a winner between them. 
+
 ## Example Output 
 ```
 Welcome to One Shot Poker, the quick single hand poker game!
